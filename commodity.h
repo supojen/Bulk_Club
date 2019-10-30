@@ -2,6 +2,7 @@
 #define COMMODITY_H
 
 #include <QObject>
+#include <QString>
 
 class Commodity : public QObject
 {
@@ -9,9 +10,20 @@ class Commodity : public QObject
 public:
     explicit Commodity(QObject *parent = nullptr);
 
-signals:
+    /* Getter and Setter for m_item */
+    QString item() const;
+    void setItem(const QString &item);
+    /* Getter and Setter for m_price */
+    float price() const;
+    void setPrice(float price);
 
+signals:
+    void itemChanged();
+    void priceChanged();
 public slots:
+private:
+    QString m_item;
+    float   m_price;
 };
 
 #endif // COMMODITY_H
