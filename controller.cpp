@@ -14,6 +14,42 @@ Controller::Controller(QObject *parent) : QObject(parent)
     {
         qDebug() << "problem opening database" << endl;
     }
+    createTable();
+
+}
+
+Controller::Controller(Controller &controller)
+    :Controller()
+{
+    qDebug() << "old controller has " << controller.m_members.count()    << " members in its list"     << endl;
+    qDebug() << "old controller has "<< controller.m_admins.count()      << " adimins in its list"     << endl;
+    qDebug() << "old controller has "<< controller.m_records.count()     << " records in its list"     << endl;
+    qDebug() << "old controller has "<< controller.m_commodities.count() << " commodities in its list" << endl;
+}
+
+Controller::~Controller()
+{
+    m_database.close();
+    // clean the memory occupied by m_admins
+    for(int index = 0; index < this->m_admins.count(); index++)
+    {
+        delete this->m_admins.at(index);
+    }
+    // clean the memory occupied by m_members
+    for(int index = 0; index < this->m_members.count(); index++)
+    {
+        delete this->m_members.at(index);
+    }
+    // clean the memory occupied by m_records
+    for(int index = 0; index < this->m_records.count(); index++)
+    {
+        delete this->m_records.at(index);
+    }
+    // clean the memory occupied by m_commodites
+    for(int index = 0; index < this->m_commodities.count(); index++)
+    {
+        delete this->m_commodities.at(index);
+    }
 
 }
 /**
@@ -60,7 +96,7 @@ void Controller::createTable()
     //==============================================================
     // About creating the commodity table
     QString createCommodityTable =
-    "create table IF NOT EXISTS record(                            "
+    "create table IF NOT EXISTS coommodity(                        "
     "item            varchar(50) primary key,                      "
     "quantity        real not null                                 "
     ");                                                            ";
@@ -72,9 +108,10 @@ void Controller::createTable()
     //==============================================================
     // About creating the admin table
     QString createAdminTable =
-    "create table IF NOT EXISTS record(                            "
+    "create table IF NOT EXISTS admin(                             "
     "username        varchar(50) primary key,                      "
-    "password        varchar(50)                                   "
+    "password        varchar(50),                                  "
+    "rank            integer                                       "
     ");                                                            ";
     if(!qry.exec(createAdminTable))
     {
@@ -323,3 +360,211 @@ void Controller::getSalesReportBydate(QDate date, QMap<QString, int> &items, QLi
         }
     }
 }
+
+void Controller::getexpireMembers(QDate date, QList<int> &members)
+{
+    for(int index = 0; index < this->m_members.count(); index++)
+    {
+        if(date.month() == this->m_members[index]->date().month() &&
+           date.year()  == this->m_members[index]->date().year())
+        {
+            members.append(this->m_members[index]->id());
+        }
+    }
+}
+
+void Controller::getTotalQuantityOfItems(QMap<QString, int> &totalQuantityOfItems)
+{
+
+    for(int index = 0; index < this->m_commodities.count(); index++)
+    {
+       totalQuantityOfItems[this->m_commodities[index]->item()] = 0;
+    }
+
+    for(int index = 0; index < this->m_records.count(); index++)
+    {
+        totalQuantityOfItems[this->m_records[index]->item()] += this->m_records[index]->quantity();
+    }
+}
+
+void Controller::getTotalRevenueOfItems(QMap<QString, float> &totalRevenueOfItems)
+{
+    for(int index = 0; index < this->m_commodities.count(); index++)
+    {
+       totalRevenueOfItems[this->m_commodities[index]->item()] = 0;
+    }
+
+    for(int index = 0; index < this->m_records.count(); index++)
+    {
+        totalRevenueOfItems[this->m_records[index]->item()] += this->m_records[index]->quantity();
+    }
+
+    for(int index = 0; index < this->m_commodities.count(); index++)
+    {
+       totalRevenueOfItems[this->m_commodities[index]->item()] *= this->m_commodities[index]->price();
+    }
+}
+
+void Controller::getMembersPurchased(QMap<int, QList<int> > &membersPuchasedHistory)
+{
+    // initialize the output variable
+    for(int index = 0; index < this->m_members.count(); index++)
+    {
+        QList<int> list;
+        membersPuchasedHistory[this->m_members[index]->id()] = list;
+    }
+
+    // setting up the output variable
+    for(int index_mem = 0; index_mem < this->m_members.count(); index_mem++)
+    {
+        for(int index_rec = 0; index_rec < this->m_records.count(); index_rec++)
+        {
+            if(this->m_records[index_rec]->member_id() == this->m_members[index_mem]->id())
+            {
+                membersPuchasedHistory[this->m_members[index_mem]->id()]
+                .append(this->m_records[index_rec]->id());
+            }
+        }
+    }
+}
+
+void Controller::getRebateByMembers(QMap<int, float> &reabateOfMembers)
+{
+    // initialize the output variable
+    for(int index = 0; index < this->m_members.count(); index++)
+    {
+        reabateOfMembers[this->m_members[index]->id()] = 0;
+    }
+    // setting up the output variable
+    for(int index = 0; index < this->m_members.count(); index++)
+    {
+        reabateOfMembers[this->m_members[index]->id()] = this->m_members[index]->rebate();
+    }
+}
+
+void Controller::getTotalSpentBymembers(QMap<int, float> &totalSpentOfMembers)
+{
+    // initialize the output variable
+    for(int index = 0; index < this->m_members.count(); index++)
+    {
+        totalSpentOfMembers[this->m_members[index]->id()] = 0;
+    }
+    // setting up the output variable
+    for(int index = 0; index < this->m_members.count(); index++)
+    {
+        totalSpentOfMembers[this->m_members[index]->id()] = this->m_members[index]->spent();
+    }
+}
+
+QList<Commodity *> Controller::getCommodity()
+{
+    return this->m_commodities;
+}
+
+QList<Admin *> Controller::getAdmins()
+{
+    return this->m_admins;
+}
+
+QList<Record *> Controller::getRecords()
+{
+    return this->m_records;
+}
+
+QList<Member *> Controller::getMembers()
+{
+    return this->m_members;
+}
+
+void Controller::loadMembers()
+{
+    QSqlTableModel model;
+    model.setTable("member");
+    model.select();
+
+    for(int index = 0; index < model.rowCount(); index++)
+    {
+        Member* entry = new Member();
+        entry->setId(model.record(index).value("name").toInt());
+        entry->setName(model.record(index).value("name").toString());
+        entry->setType(model.record(index).value("type").toString());
+        // setting date
+        int year = model.record(index).value("year").toInt();
+        int month = model.record(index).value("month").toInt();
+        int day = model.record(index).value("day").toInt();
+        QDate date(year,month,day);
+        entry->setDate(date);
+        entry->setSpent(model.record(index).value("spent").toInt());
+        entry->setRebate(model.record(index).value("rebate").toInt());
+
+        this->m_members.append(entry);
+    }
+}
+
+void Controller::loadRecords()
+{
+    QSqlTableModel model;
+    model.setTable("record");
+    model.select();
+
+    for(int index = 0; index < model.rowCount(); index++)
+    {
+        Record* entry = new Record();
+        entry->setId(index);
+        entry->setMember_id(model.record(index).value("member_id").toInt());
+        // setting date
+        int year = model.record(index).value("year").toInt();
+        int month = model.record(index).value("month").toInt();
+        int day = model.record(index).value("day").toInt();
+        QDate date(year,month,day);
+        entry->setDate(date);
+        entry->setItem(model.record(index).value("item").toString());
+        entry->setQuantity(model.record(index).value("quantity").toInt());
+
+        this->m_records.append(entry);
+    }
+}
+
+void Controller::loadCommodities()
+{
+    QSqlTableModel model;
+    model.setTable("commodity");
+    model.select();
+
+    for(int index = 0; index < model.rowCount(); index++)
+    {
+        Commodity* entry = new Commodity();
+        entry->setItem(model.record(index).value("item").toString());
+        entry->setPrice(model.record(index).value("price").toFloat());
+
+        this->m_commodities.append(entry);
+    }
+
+}
+
+void Controller::loadAdmins()
+{
+    QSqlTableModel model;
+    model.setTable("admin");
+    model.select();
+
+    for(int index = 0; index < model.rowCount(); index++)
+    {
+        Admin* entry = new Admin();
+        entry->setRank(model.record(index).value("rank").toInt());
+        entry->setUsername(model.record(index).value("username").toString());
+        entry->setPassword(model.record(index).value("password").toString());
+
+        this->m_admins.append(entry);
+    }
+}
+
+
+
+
+
+
+
+
+
+

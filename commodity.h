@@ -10,10 +10,10 @@ class Commodity : public QObject
 public:
     explicit Commodity(QObject *parent = nullptr);
 
-    /* Getter and Setter for m_item */
+
     QString item() const;
     void setItem(const QString &item);
-    /* Getter and Setter for m_price */
+
     float price() const;
     void setPrice(float price);
 

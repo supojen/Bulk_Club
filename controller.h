@@ -18,6 +18,7 @@ class Controller : public QObject
 public:
     explicit Controller(QObject *parent = nullptr);
 
+    Controller(Controller& controller);
     ~Controller();
 
     void createTable();
@@ -62,7 +63,6 @@ public:
                               QList<int>&         regularMembers,
                               QList<int>&         executiveMembers,
                               int&                revenue);
-    /*
     void getexpireMembers(QDate date, QList<int>& members);
     void getTotalQuantityOfItems(QMap<QString, int>& totalQuantityOfItems);
     void getTotalRevenueOfItems(QMap<QString, float>& totalRevenueOfItems);
@@ -70,9 +70,13 @@ public:
     void getMembersPurchased(QMap<int, QList<int> >& membersPuchasedHistory);
     void getRebateByMembers(QMap<int,float>& reabateOfMembers);
     void getTotalSpentBymembers(QMap<int,float>& totalSpentOfMembers);
-    // About Commodity
-    void getCommodity(QMap<QString,float> commodities);
-    */
+
+    // This function get the list of the infos, but if you change the data you get here
+    // it will not change the database
+    QList<Commodity*> getCommodity();
+    QList<Admin*>     getAdmins();
+    QList<Record*>    getRecords();
+    QList<Member*>    getMembers();
 
 signals:
 

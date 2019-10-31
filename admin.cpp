@@ -5,22 +5,34 @@ Admin::Admin(QObject *parent) : QObject(parent)
 
 }
 
-QString Admin::getUsername() const
+QString Admin::username() const
 {
-    return username;
+    return m_username;
 }
 
-void Admin::setUsername(const QString &value)
+void Admin::setUsername(const QString &username)
 {
-    username = value;
+    m_username = username;
 }
 
-QString Admin::getPassword() const
+QString Admin::password() const
 {
-    return password;
+    return m_password;
 }
 
-void Admin::setPassword(const QString &value)
+void Admin::setPassword(const QString &password)
 {
-    password = value;
+    m_password = password;
 }
+
+int Admin::rank() const
+{
+    return m_rank;
+}
+
+void Admin::setRank(int rank)
+{
+    m_rank = rank;
+}
+
+
