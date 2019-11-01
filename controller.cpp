@@ -405,12 +405,12 @@ void Controller::getTotalRevenueOfItems(QMap<QString, float> &totalRevenueOfItem
     }
 }
 
-void Controller::getMembersPurchased(QMap<int, QList<int> > &membersPuchasedHistory)
+void Controller::getMembersPurchased(QMap<int, QList<Record*> > &membersPuchasedHistory)
 {
     // initialize the output variable
     for(int index = 0; index < this->m_members.count(); index++)
     {
-        QList<int> list;
+        QList<Record*> list;
         membersPuchasedHistory[this->m_members[index]->id()] = list;
     }
 
@@ -422,7 +422,7 @@ void Controller::getMembersPurchased(QMap<int, QList<int> > &membersPuchasedHist
             if(this->m_records[index_rec]->member_id() == this->m_members[index_mem]->id())
             {
                 membersPuchasedHistory[this->m_members[index_mem]->id()]
-                .append(this->m_records[index_rec]->id());
+                .append(this->m_records[index_rec]);
             }
         }
     }

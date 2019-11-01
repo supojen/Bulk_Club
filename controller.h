@@ -23,12 +23,12 @@ public:
 
     void createTable();
 
-    //=================================================================
+    //==========================================================================================
     // This part will change the data
-    //=================================================================
-    //*************************************************
+    //==========================================================================================
+    //******************************************************************************************
     // Creating the entry
-    //*************************************************
+    //******************************************************************************************
     void createMember(int     id,
                       QString name,
                       QString type,
@@ -41,38 +41,86 @@ public:
                       int     quantity);
     void createCommodity(QString item,
                          float price);
-    //*************************************************
+    //******************************************************************************************
     // deleting the entry
-    //*************************************************
+    //******************************************************************************************
     void deleteMember(int id);
-    //*************************************************
+    //******************************************************************************************
     // updateing the entry
-    //*************************************************
+    //******************************************************************************************
     void updatemember(int     id,
                       QString name,
                       QString type,
                       QDate   date,
                       float   spent,
                       float   rebate);
-    //=================================================================
+
+
+    //==========================================================================================
     // This part will not change the data
-    //=================================================================
-    // About Records
+    // This part is about reading the data
+    //==========================================================================================
+    //******************************************************************************************
+    // Getting the sales report according to the date
+    // Input:
+    //      QDate date:                   representing the date you want to check
+    // Return:
+    //      QMap<QString, int>& items :   <item's name, item's quantity> (According to the date)
+    //      QList<int>& regularMembers:   <regular member's id> (According to the date)
+    //      QList<int>& executiveMembers: <executive member 's id> (According to the date)
+    //      int&:                         The total revenue according to the date
+    //******************************************************************************************
     void getSalesReportBydate(QDate               date,
                               QMap<QString, int>& items,
                               QList<int>&         regularMembers,
                               QList<int>&         executiveMembers,
                               int&                revenue);
+    //******************************************************************************************
+    // Getting the member ID that will expired by the givn date(the same month and year)
+    // Input:
+    //      QDate date:                   representing the date you want to check
+    // Return:
+    //      QList<int>& members:          <member 's ID>,
+    //                                    these are the members who's membership will expired in
+    //                                    the month and year you given
+    //******************************************************************************************
     void getexpireMembers(QDate date, QList<int>& members);
+    //******************************************************************************************
+    // Getting the total quantity of items
+    // Return:
+    //      QMap<QString, int>& totalQuantityOfItems: <item's name, the qunatity of the item>
+    //******************************************************************************************
     void getTotalQuantityOfItems(QMap<QString, int>& totalQuantityOfItems);
+    //******************************************************************************************
+    // Getting the total revenue of items
+    // Return:
+    //      QMap<QString, int>& totalRevenueOfItems: <item's name, the Revenue of the item>
+    //****************************************************************************************
     void getTotalRevenueOfItems(QMap<QString, float>& totalRevenueOfItems);
-    // About Members
-    void getMembersPurchased(QMap<int, QList<int> >& membersPuchasedHistory);
+    //******************************************************************************************
+    // Getting the records according to the member
+    // Return:
+    //      QMap<QString, QList<Record*>>& membersPuchasedHistory: <member's ID, the record related to the member>
+    //******************************************************************************************
+    void getMembersPurchased(QMap<int, QList<Record*> >& membersPuchasedHistory);
+    //******************************************************************************************
+    // Getting the members' rebate
+    // Return:
+    //      QMap<int,float>& rebateOfMembers: <member's ID, the rebate of the member>
+    //******************************************************************************************
     void getRebateByMembers(QMap<int,float>& reabateOfMembers);
+    //******************************************************************************************
+    // Getting the members' total spent
+    // Return:
+    //      QMap<int,float>& rebateOfMembers: <member's ID, the total spent of the member>
+    //******************************************************************************************
     void getTotalSpentBymembers(QMap<int,float>& totalSpentOfMembers);
 
+
+    //==========================================================================================
     // This function get the list of the infos, but if you change the data you get here
     // it will not change the database
+    //==========================================================================================
     QList<Commodity*> getCommodity();
     QList<Admin*>     getAdmins();
     QList<Record*>    getRecords();
