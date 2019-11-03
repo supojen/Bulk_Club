@@ -126,6 +126,11 @@ public:
     QList<Record*>    getRecords();
     QList<Member*>    getMembers();
 
+
+    QSqlQueryModel* getMembersQueryModel();
+    QSqlQueryModel* getRecordsQueryModel();
+    QSqlQueryModel* getCommoditiesQueryModel();
+
 signals:
 
 public slots:

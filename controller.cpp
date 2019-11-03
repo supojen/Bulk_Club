@@ -476,6 +476,57 @@ QList<Member *> Controller::getMembers()
     return this->m_members;
 }
 
+QSqlQueryModel *Controller::getMembersQueryModel()
+{
+    QSqlQueryModel* model = new QSqlQueryModel();
+
+    QSqlQuery qry;
+    qry.prepare("select * from member;");
+    if(!qry.exec())
+    {
+        qDebug() <<"error Loading values to db" << endl;
+
+    }
+
+    model->setQuery(qry);
+
+    return model;
+}
+
+QSqlQueryModel *Controller::getRecordsQueryModel()
+{
+    QSqlQueryModel* model = new QSqlQueryModel();
+
+    QSqlQuery qry;
+    qry.prepare("select * from record;");
+    if(!qry.exec())
+    {
+        qDebug() <<"error Loading values to db" << endl;
+
+    }
+
+    model->setQuery(qry);
+
+    return model;
+}
+
+QSqlQueryModel *Controller::getCommoditiesQueryModel()
+{
+    QSqlQueryModel* model = new QSqlQueryModel();
+
+    QSqlQuery qry;
+    qry.prepare("select * from commodity;");
+    if(!qry.exec())
+    {
+        qDebug() <<"error Loading values to db" << endl;
+
+    }
+
+    model->setQuery(qry);
+
+    return model;
+}
+
 void Controller::loadMembers()
 {
     QSqlTableModel model;
