@@ -16,6 +16,10 @@ Controller::Controller(QObject *parent) : QObject(parent)
     }
     createTable();
 
+    loadAdmins();
+    loadMembers();
+    loadRecords();
+    loadCommodities();
 }
 
 Controller::Controller(Controller &controller)

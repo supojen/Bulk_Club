@@ -130,6 +130,12 @@ public:
     QSqlQueryModel* getMembersQueryModel();
     QSqlQueryModel* getRecordsQueryModel();
     QSqlQueryModel* getCommoditiesQueryModel();
+    //maybe add some function...
+    /*
+    QSqlQueryModel* getMembersQueryModelWithCondition(QString condition);
+    QSqlQueryModel* getRecordsQueryModelWithCondition(QString condition);
+    QSqlQueryModel* getCommoditiesQueryModelWithCondition(QString condition);
+    */
 
 signals:
 
