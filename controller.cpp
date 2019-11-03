@@ -102,7 +102,7 @@ void Controller::createTable()
     QString createCommodityTable =
     "create table IF NOT EXISTS commodity(                         "
     "item            varchar(50) primary key,                      "
-    "quantity        float not null                                "
+    "price           float not null                                "
     ");                                                            ";
     if(!qry.exec(createCommodityTable))
     {
@@ -232,7 +232,7 @@ void Controller::createCommodity(QString item, float price)
     QSqlQuery qry;
     qry.prepare("insert into commodity   (    "
                 "item,                        "
-                "quantity)                    "
+                "price)                       "
                 "values(?,?);         "
                 );
     qry.addBindValue(item);
@@ -642,10 +642,15 @@ float Controller::calcMemberSpent(int member_id)
     QMap<QString, float> price_list = getCommodityPriceList();
 
     float spent = 0;
-    for(auto record : membersRecords[member_id])
+    for(int index = 0; index < m_records.count(); index++)
     {
-        spent += record->quantity() * price_list[record->item()];
+        if(m_records[index]->member_id() == member_id)
+        {
+            spent += m_records[index]->quantity() *
+                     price_list[m_records[index]->item()];
+        }
     }
+
     return spent;
 }
 
