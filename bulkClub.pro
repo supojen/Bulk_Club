@@ -17,20 +17,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    adminlogin.cpp \
+    admin.cpp \
+    commodity.cpp \
+    controller.cpp \
     main.cpp \
     mainwindow.cpp \
-    managerlogin.cpp
+    member.cpp \
+    record.cpp
 
 HEADERS += \
-    adminlogin.h \
+    admin.h \
+    commodity.h \
+    controller.h \
     mainwindow.h \
-    managerlogin.h
+    member.h \
+    record.h
 
 FORMS += \
-    adminlogin.ui \
-    mainwindow.ui \
-    managerlogin.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

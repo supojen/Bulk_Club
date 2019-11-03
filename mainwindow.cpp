@@ -1,21 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "adminlogin.h"
-#include "managerlogin.h"
+
 #include <QMessageBox>
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(Controller *controller, QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainWindow),
+      m_controller(controller)
 {
     ui->setupUi(this);
-    if(!connOpen())
-    {
-        ui-> statusLabel ->setText("Failed to open the Database");
-    }
-    else
-        ui-> statusLabel ->setText("Database Connected");
+    ui->stackedWidget->setCurrentWidget(ui->MAINWINDOW);
 }
+
 
 MainWindow::~MainWindow()
 {
@@ -25,20 +21,18 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    this->ui->lineEdit->setText("");
-    this->ui->lineEdit_2->setText("");
+    this->ui->username->setText("");
+    this->ui->password->setText("");
 }
 
 void MainWindow::on_pushButton_clicked()
 {
-    QString username = ui->lineEdit ->text();
-    QString password = ui->lineEdit_2->text();
+    QString username = ui->username ->text();
+    QString password = ui->password->text();
 
-    if(!connOpen())
-    {
-        qDebug() << "Failed to open the Database";
-    }
     QSqlQuery qry;
+    // RANK 2 IS USED FOR ADMINS
+    // RANK 1 IS USED FOR STORE MANAGERS
     qry.prepare("select * from admin where username ='"+username+"' and password ='"+password+"' and rank= '2'");
     if (qry.exec())
     {
@@ -50,15 +44,13 @@ void MainWindow::on_pushButton_clicked()
            if(count == 1)
            {
             QMessageBox::information(this, "Login", "Username and password is correct");
-            hide();
-            connClose();
-            adminLogin *admin = new adminLogin;
-            admin->show();
+            changeToAdmin();
+
            }
            else if (count!= 1)
            {
                if(qry.exec("select * from admin where username ='"+username+"' and password ='"+password+"' and rank= '1'"))
-                   int count  = 0;
+                   count  = 0;
                     while(qry.next())
                     {
                         count++;
@@ -66,10 +58,9 @@ void MainWindow::on_pushButton_clicked()
                     if (count == 1)
                     {
                        QMessageBox::information(this,"Login", "Username and Password is correct");
-                       hide();
-                       connClose();
-                       managerLogin *manager = new managerLogin;
-                       manager->show();
+                       changeToManager();
+
+
                     }
                     else
                     {
@@ -77,4 +68,18 @@ void MainWindow::on_pushButton_clicked()
                     }
            }
     }
+}
+void MainWindow::changeToAdmin()
+{
+    ui->stackedWidget->setCurrentWidget(ui->adminLogin);
+}
+
+void MainWindow::changeToManager()
+{
+    ui->stackedWidget->setCurrentWidget(ui->managerLogin);
+}
+
+void MainWindow::on_viewItems_clicked()
+{
+   ui->managerTable->setModel(m_controller->getCommoditiesQueryModel());
 }

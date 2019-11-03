@@ -10,6 +10,7 @@
 #include <QtDebug>
 #include <QFileInfo>
 #include <QKeyEvent>
+#include "controller.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -21,38 +22,21 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(Controller *controller, QWidget *parent = nullptr);
     ~MainWindow();
 
-    QSqlDatabase mydb;
-    void connClose()
-    {
-        mydb.close();
-        mydb.removeDatabase(QSqlDatabase::defaultConnection);
-    }
-    bool connOpen()
-    {
-        mydb=QSqlDatabase::addDatabase("QSQLITE");
-        mydb.setDatabaseName("/Users/littlejimmyfirl/bulkClub/bulk_club.db");
-
-        if(!mydb.open())
-        {
-            qDebug() << ("Failed to open the database");
-            return false;
-        }
-        else
-        {
-            qDebug() << ("Database Connected....");
-            return true;
-        }
-    }
 
 private slots:
     void on_pushButton_2_clicked();
 
     void on_pushButton_clicked();
+    void changeToAdmin();
+    void changeToManager();
+
+    void on_viewItems_clicked();
 
 private:
     Ui::MainWindow *ui;
+    Controller *m_controller;
 };
 #endif // MAINWINDOW_H
