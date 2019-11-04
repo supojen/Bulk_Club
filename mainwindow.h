@@ -26,6 +26,8 @@ private slots:
 
     void on_pushButton_addMember_clicked();
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::MainWindow *ui;
     Controller *m_controller;

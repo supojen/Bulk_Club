@@ -542,6 +542,38 @@ QSqlQueryModel *Controller::getCommoditiesQueryModel()
     return model;
 }
 
+QSqlTableModel *Controller::getMembersQueryModelWithCondition(QString condition)
+{
+    QSqlTableModel* model = new QSqlTableModel();
+    model->setTable("member");
+    model->setFilter(condition);
+    model->select();
+
+    return model;
+}
+
+QSqlTableModel *Controller::getRecordsQueryModelWithCondition(QString condition)
+{
+    QSqlTableModel* model = new QSqlTableModel();
+    model->setTable("record");
+    model->setFilter(condition);
+    model->select();
+
+    return model;
+}
+
+QSqlTableModel *Controller::getCommoditiesQueryModelWithCondition(QString condition)
+{
+    QSqlTableModel* model = new QSqlTableModel();
+    model->setTable("commodity");
+    model->setFilter(condition);
+    model->select();
+
+    return model;
+}
+
+
+
 bool Controller::readRecordFile()
 {
     QString file_name = QFileDialog::getOpenFileName(nullptr, "Open Record File",QDir::homePath());
