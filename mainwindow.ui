@@ -25,7 +25,7 @@
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>220</y>
+          <y>320</y>
           <width>441</width>
           <height>251</height>
          </rect>
@@ -108,6 +108,19 @@
           <string>Password:</string>
          </property>
         </widget>
+       </widget>
+       <widget class="QLabel" name="logo">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>30</y>
+          <width>280</width>
+          <height>280</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="adminLogin"/>
