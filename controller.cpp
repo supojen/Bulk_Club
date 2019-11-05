@@ -1,3 +1,5 @@
+// /Users/littlejimmyfirl/bulkClub/bulk_club.db
+
 #include "controller.h"
 
 /**
@@ -15,11 +17,11 @@ Controller::Controller(QObject *parent) : QObject(parent)
         qDebug() << "problem opening database" << endl;
     }
     createTable();
+
     loadAdmins();
     loadMembers();
     loadRecords();
     loadCommodities();
-
 }
 
 Controller::Controller(Controller &controller)
@@ -100,9 +102,9 @@ void Controller::createTable()
     //==============================================================
     // About creating the commodity table
     QString createCommodityTable =
-    "create table IF NOT EXISTS commodity(                        "
+    "create table IF NOT EXISTS commodity(                         "
     "item            varchar(50) primary key,                      "
-    "quantity        real not null                                 "
+    "price           float not null                                "
     ");                                                            ";
     if(!qry.exec(createCommodityTable))
     {
@@ -232,7 +234,7 @@ void Controller::createCommodity(QString item, float price)
     QSqlQuery qry;
     qry.prepare("insert into commodity   (    "
                 "item,                        "
-                "quantity)                    "
+                "price)                       "
                 "values(?,?);         "
                 );
     qry.addBindValue(item);
@@ -240,7 +242,7 @@ void Controller::createCommodity(QString item, float price)
 
     if(!qry.exec())
     {
-         qDebug() << "Error adding record" << endl;
+         qDebug() << "Error adding commodity" << endl;
     }
     qry.clear();
 
@@ -465,6 +467,17 @@ QList<Commodity *> Controller::getCommodity()
     return this->m_commodities;
 }
 
+QMap<QString, float> Controller::getCommodityPriceList()
+{
+    QMap<QString, float> price_list;
+
+    for(int index = 0; index < m_commodities.count(); index++)
+    {
+        price_list[m_commodities[index]->item()] = m_commodities[index]->price();
+    }
+    return price_list;
+}
+
 QList<Admin *> Controller::getAdmins()
 {
     return this->m_admins;
@@ -529,6 +542,157 @@ QSqlQueryModel *Controller::getCommoditiesQueryModel()
     model->setQuery(qry);
 
     return model;
+}
+
+QSqlTableModel *Controller::getMembersQueryModelWithCondition(QString condition)
+{
+    QSqlTableModel* model = new QSqlTableModel();
+    model->setTable("member");
+    model->setFilter(condition);
+    model->select();
+
+    return model;
+}
+
+QSqlTableModel *Controller::getRecordsQueryModelWithCondition(QString condition)
+{
+    QSqlTableModel* model = new QSqlTableModel();
+    model->setTable("record");
+    model->setFilter(condition);
+    model->select();
+
+    return model;
+}
+
+QSqlTableModel *Controller::getCommoditiesQueryModelWithCondition(QString condition)
+{
+    QSqlTableModel* model = new QSqlTableModel();
+    model->setTable("commodity");
+    model->setFilter(condition);
+    model->select();
+
+    return model;
+}
+
+
+
+bool Controller::readRecordFile()
+{
+    QString file_name = QFileDialog::getOpenFileName(nullptr, "Open Record File",QDir::homePath());
+
+
+    QFile file(file_name);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return false;
+    QTextStream in(&file);
+    bool date_is_alraedy_be_record = false;
+    while (!in.atEnd())
+    {
+        // Read Date
+        QString date_str = in.readLine();
+        QStringList date_split = date_str.split('/');
+        int month = date_split[0].toInt();
+        int day = date_split[1].toInt();
+        int year = date_split[2].toInt();
+        // Read member id
+        QString member_id_str = in.readLine();
+        int member_id = member_id_str.toInt();
+        // Read item name
+        QString item = in.readLine();
+        // Read item price
+        QString price_str = in.readLine();
+        float price = price_str.toFloat();
+        //Read item quantity
+        QString quantity_str = in.readLine();
+        int quantity = quantity_str.toInt();
+        //Testing
+        qDebug() << year <<  "/" << month << "/" << day;
+        qDebug() << member_id;
+        qDebug() << item;
+        qDebug() << price;
+        qDebug() << quantity;
+        // Check if the date is already be loaded
+        if(!date_is_alraedy_be_record)
+        {
+            for(int index = 0; index < this->m_records.count(); index++)
+            {
+                if(this->m_records[index]->date() == QDate(year,month,day))
+                {
+                    qDebug() << "Today's record is already loaded!" << endl;
+                    return false;
+                }
+            }
+            date_is_alraedy_be_record = true;
+        }
+
+        // create the record
+        createRecord(member_id,
+                    QDate(year,month,day),
+                    item,
+                    quantity);
+        // create the commodity
+        createCommodity(item,price);
+
+     }
+
+    return true;
+}
+
+bool Controller::readMemberFile()
+{
+    QString file_name = QFileDialog::getOpenFileName(nullptr, "Open Record File",QDir::homePath());
+
+
+    QFile file(file_name);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return false;
+    QTextStream in(&file);
+    while (!in.atEnd())
+    {
+        QString member_name = in.readLine();
+        int member_id = in.readLine().toInt();
+        QString type = in.readLine();
+        QString date_str = in.readLine();
+        QStringList date_split = date_str.split('/');
+        int month = date_split[0].toInt();
+        int day = date_split[1].toInt();
+        int year = date_split[2].toInt();
+
+        createMember(member_id,
+                     member_name,
+                     type,
+                     QDate(year,month,day),
+                     calcMemberSpent(member_id),
+                     calcMemberRebate(member_id));
+    }
+
+    return true;
+}
+
+float Controller::calcMemberSpent(int member_id)
+{
+    QMap<int, QList<Record*>> membersRecords;
+    getMembersPurchased(membersRecords);
+    QMap<QString, float> price_list = getCommodityPriceList();
+
+    float spent = 0;
+    for(int index = 0; index < m_records.count(); index++)
+    {
+        if(m_records[index]->member_id() == member_id)
+        {
+            spent += m_records[index]->quantity() *
+                     price_list[m_records[index]->item()];
+        }
+    }
+
+    return spent;
+}
+
+float Controller::calcMemberRebate(int member_id)
+{
+    float spent = calcMemberSpent(member_id);
+    float rebate = spent * float(0.02);
+    return rebate;
 }
 
 void Controller::loadMembers()

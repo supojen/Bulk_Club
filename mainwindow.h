@@ -35,6 +35,9 @@ private slots:
 
     void on_viewItems_clicked();
 
+protected:
+    void keyPressEvent(QKeyEvent* pe);
+
 private:
     Ui::MainWindow *ui;
     Controller *m_controller;

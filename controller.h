@@ -7,6 +7,9 @@
 #include <QtSql>
 #include <QList>
 #include <QMap>
+#include <QFile>
+#include <QFileDialog>
+#include <QStringList>
 #include "member.h"
 #include "record.h"
 #include "commodity.h"
@@ -125,10 +128,20 @@ public:
     QList<Admin*>     getAdmins();
     QList<Record*>    getRecords();
     QList<Member*>    getMembers();
+    QMap<QString,float> getCommodityPriceList();
 
     QSqlQueryModel* getMembersQueryModel();
     QSqlQueryModel* getRecordsQueryModel();
     QSqlQueryModel* getCommoditiesQueryModel();
+
+    QSqlTableModel* getMembersQueryModelWithCondition(QString condition);
+    QSqlTableModel* getRecordsQueryModelWithCondition(QString condition);
+    QSqlTableModel* getCommoditiesQueryModelWithCondition(QString condition);
+    bool readRecordFile();
+    bool readMemberFile();
+
+    float calcMemberSpent(int member_id);
+    float calcMemberRebate(int member_id);
 
 signals:
 
