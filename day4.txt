@@ -1,0 +1,60 @@
+11/15/2019
+12345
+1 gallon milk
+6.49	
+5
+11/15/2019
+12345
+Assorted Muffins
+5.89	
+4
+11/15/2019
+77777
+Rack of Lamb
+14.79	
+4
+11/15/2019
+88888
+Foster Farms Whole Chicken
+11.75	
+2
+11/15/2019
+61616
+Spiderman 2
+19.95	
+1
+11/15/2019
+61616
+While You Were Sleeping
+17.75	
+1
+11/15/2019
+12345
+Cheer Laundry Detergent
+7.99	
+1
+11/15/2019
+67899
+Bkfst Cereal Variety Pack
+7.29	
+4
+11/15/2019
+12345
+Disney DVD Collection 2
+59.99	
+1
+11/15/2019
+12899
+Pepsi
+6.75	
+8
+11/15/2019
+61616
+Coke
+6.79	
+7
+11/15/2019
+12345
+Assorted Muffins
+5.89	
+10
