@@ -15,6 +15,7 @@
 #include "commodity.h"
 #include "admin.h"
 
+
 class Controller : public QObject
 {
     Q_OBJECT
@@ -133,6 +134,8 @@ public:
     QSqlQueryModel* getMembersQueryModel();
     QSqlQueryModel* getRecordsQueryModel();
     QSqlQueryModel* getCommoditiesQueryModel();
+    QSqlQueryModel* getRevenueSortedById();
+    QSqlQueryModel* getRevenueSortedByRev();
 
     QSqlTableModel* getMembersQueryModelWithCondition(QString condition);
     QSqlTableModel* getRecordsQueryModelWithCondition(QString condition);
@@ -142,6 +145,8 @@ public:
 
     float calcMemberSpent(int member_id);
     float calcMemberRebate(int member_id);
+
+
 
 signals:
 

@@ -526,6 +526,41 @@ QSqlQueryModel *Controller::getRecordsQueryModel()
 
     return model;
 }
+QSqlQueryModel *Controller::getRevenueSortedById()
+{
+    QSqlQueryModel* model = new QSqlQueryModel();
+
+    QSqlQuery qry;
+    qry.prepare("select id, name, type, spent from member ORDER BY id ASC;");
+    if(!qry.exec())
+    {
+        qDebug() <<"error Loading values to db" << endl;
+
+    }
+
+    model->setQuery(qry);
+
+    return model;
+}
+
+QSqlQueryModel *Controller::getRevenueSortedByRev()
+{
+    QSqlQueryModel* model = new QSqlQueryModel();
+
+    QSqlQuery qry;
+    qry.prepare("select id, name, type, spent from member ORDER BY spent ASC;");
+    if(!qry.exec())
+    {
+        qDebug() <<"error Loading values to db" << endl;
+
+    }
+
+    model->setQuery(qry);
+
+    return model;
+}
+
+
 
 QSqlQueryModel *Controller::getCommoditiesQueryModel()
 {
@@ -549,6 +584,7 @@ QSqlTableModel *Controller::getMembersQueryModelWithCondition(QString condition)
     QSqlTableModel* model = new QSqlTableModel();
     model->setTable("member");
     model->setFilter(condition);
+    model->sort(0,Qt::AscendingOrder);
     model->select();
 
     return model;
@@ -573,7 +609,6 @@ QSqlTableModel *Controller::getCommoditiesQueryModelWithCondition(QString condit
 
     return model;
 }
-
 
 
 bool Controller::readRecordFile()
@@ -776,6 +811,9 @@ void Controller::loadAdmins()
 
         this->m_admins.append(entry);
     }
+
+
+
 }
 
 

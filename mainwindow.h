@@ -10,7 +10,9 @@
 #include <QtDebug>
 #include <QFileInfo>
 #include <QKeyEvent>
+#include <QDate>
 #include "controller.h"
+
 
 
 QT_BEGIN_NAMESPACE
@@ -32,8 +34,27 @@ private slots:
     void on_pushButton_clicked();
     void changeToAdmin();
     void changeToManager();
+    void changeToValidate();
 
     void on_viewItems_clicked();
+
+    void on_loadSales_clicked();
+
+    void on_comboBox_currentIndexChanged(const QString &arg1);
+
+    void on_loadSales_2_clicked();
+
+
+    void on_comboBox_2_currentIndexChanged(const QString &arg1);
+
+    void on_validate_clicked();
+
+    QString generateMemberID();
+    QString getMonth(QString month);
+
+
+
+    void on_createMember_clicked();
 
 protected:
     void keyPressEvent(QKeyEvent* pe);

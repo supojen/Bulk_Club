@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
 #include <QMessageBox>
 #include <QPixmap>
 
@@ -75,6 +76,8 @@ void MainWindow::on_pushButton_clicked()
                     else
                     {
                         QMessageBox::warning(this,"Login","Username and password is not correct");
+                        this->ui->username->setText("");
+                        this->ui->password->setText("");
                     }
            }
     }
@@ -89,7 +92,180 @@ void MainWindow::changeToManager()
     ui->stackedWidget->setCurrentWidget(ui->managerLogin);
 }
 
+void MainWindow::changeToValidate()
+{
+    ui->stackedWidget->setCurrentWidget(ui->addMember);
+}
+
 void MainWindow::on_viewItems_clicked()
 {
    ui->managerTable->setModel(m_controller->getCommoditiesQueryModel());
+}
+
+void MainWindow::on_loadSales_clicked()
+{
+    m_controller->readRecordFile();
+}
+
+void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
+{
+    QString date = ui->comboBox->currentText();
+    QStringList str_split = date.split(',');
+    int day = str_split[1].toInt();
+
+    QString condition = "day==";
+    condition += QString::number(day);
+
+    ui->managerTable->setModel(
+    m_controller->getRecordsQueryModelWithCondition(condition));
+    ui->managerTable->setColumnHidden(0,true);
+    ui->managerTable->setColumnHidden(2,true);
+    ui->managerTable->setColumnHidden(3,true);
+    ui->managerTable->setColumnHidden(4,true);
+    ui->managerTable->show();
+
+}
+
+void MainWindow::on_loadSales_2_clicked()
+{
+   m_controller->readMemberFile();
+
+}
+
+
+
+
+void MainWindow::on_comboBox_2_currentIndexChanged(const QString &arg1)
+{
+    QString select = ui->comboBox_2->currentText();
+
+    if(select == "Sort By ID")
+    {
+          ui->managerTable->setModel(m_controller->getRevenueSortedById());
+
+    }
+    if(select == "Sort By REV")
+    {
+       ui->managerTable->setModel(m_controller->getRevenueSortedByRev());
+    }
+}
+
+void MainWindow::on_validate_clicked()
+{
+    changeToValidate();
+}
+
+
+QString MainWindow::generateMemberID()
+{
+    int ID;
+    qsrand(QDateTime::currentMSecsSinceEpoch() / 1000);
+    ID = (qrand() % 100000);
+    QString memberID = QString::number(ID);
+    return memberID;
+
+    //This function generaters a random 5 digit number that will be used as a MemberID
+
+}
+QString MainWindow ::getMonth(QString month)
+{
+    if (month == "Jan")
+        month = "01";
+    else if (month == "Feb")
+        month = "02";
+    else if (month == "Mar")
+        month = "03";
+    else if (month == "Apr")
+        month = "04";
+    else if (month == "May")
+        month = "05";
+    else if (month == "Jun")
+        month = "06";
+    else if (month == "Jul")
+        month = "07";
+    else if (month == "Aug")
+        month = "08";
+    else if (month == "Sep")
+        month = "09";
+    else if (month == "Oct")
+        month = "10";
+    else if (month == "Nov")
+        month = "11";
+    else if (month == "Dec")
+        month = "12";
+    else
+        qDebug() << "No Valid Month" << endl;
+
+    return month;
+
+    // This function takes a 3 letter month value that is taken from "QDate::currentDate()" and
+    // converts it into a two number string that is formatted to work with our database.
+    // Ideally this would in a switch statement however that only functions properly with integer values or enum values.
+}
+void MainWindow::on_createMember_clicked()
+{
+    QString name;
+    QString type;
+    QString memberId;
+    QString year;
+    QString month;
+    QString day;
+    QString spent = "0.0";
+    QString rebate = "0.0";
+
+    QDate date = QDate::currentDate();
+    QString stringDate = date.toString();
+    QString monthDate = stringDate.mid( 4, 3);
+    QString dayDate = stringDate.mid(8,1);
+    QString dayYear = stringDate.mid(10,4);
+
+    int intYear = dayYear.toInt() + 1;
+    year = QString::number(intYear);
+
+    month = getMonth(monthDate);
+    if (dayDate.toInt() < 10)
+    {
+        dayDate = "0" + dayDate;
+    }
+    /*
+     * QDate date takes the current date in the format as "11 - 06 -2019" in a QDate value.
+     * It is then converted into a string wich converts it into the format "Wed Nov 6 2019
+     * The new string is broken down into substring which individually hold the month, day, and year.
+     *
+     * The Year in converted to an integer so it can be incremented by one, this is because the memberships expires in one year.
+     * The new value is converted back to a string.
+     *
+     * The month substring is passed into a function which converts it from a 3 letter string to a two number format.
+     * Example:
+     * Jan will be converted into 01
+     *
+     * Day is sent into an if statement which converts it to an int, a,d if that value is less than 10 a 0 is placed infront of its number
+     * Example:
+     * 6 will be converted into 06
+     */
+
+    name = ui->nameEdit->text();
+    type = ui->typeBox->currentText();
+    memberId =generateMemberID();
+
+    /*
+     * memberId is created before the execution which consistently generates a new 5 digit number to be assigned as a unique memberId
+     */
+
+    QSqlQuery qry;
+    qry.prepare("INSERT INTO member (id, name, type, year, month, day, spent, rebate )"
+                " values( '"+memberId+"','"+name+"','"+type+"','"+year+"','"+month+"','"+dayDate+"', '"+spent+"','"+rebate+"')");
+    if(!qry.exec())
+    {
+        qDebug() << memberId << " " << name << " " << type << " " << year << " " << month << " " << dayDate <<
+                    " " << spent << " " << rebate << endl;
+        qDebug() <<"error Loading values to db" << endl;
+
+    }
+
+    /*
+     * All values are passed into a query which updates the member table of the database that with the new values and sets their total spent
+     * and their rebate to 0.0. These 0's are placeholder values which will be changed once the admin makes a purchase on the newly made account.
+     */
+
 }
