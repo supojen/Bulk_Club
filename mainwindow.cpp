@@ -125,15 +125,18 @@ void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
     ui->managerTable->show();
 
 }
-
+void MainWindow::showTables()
+{
+    ui->managerTable->setColumnHidden(0,false);
+    ui->managerTable->setColumnHidden(2,false);
+    ui->managerTable->setColumnHidden(3,false);
+    ui->managerTable->setColumnHidden(4,false);
+}
 void MainWindow::on_loadSales_2_clicked()
 {
    m_controller->readMemberFile();
 
 }
-
-
-
 
 void MainWindow::on_comboBox_2_currentIndexChanged(const QString &arg1)
 {
@@ -141,11 +144,13 @@ void MainWindow::on_comboBox_2_currentIndexChanged(const QString &arg1)
 
     if(select == "Sort By ID")
     {
-          ui->managerTable->setModel(m_controller->getRevenueSortedById());
+      showTables();
+      ui->managerTable->setModel(m_controller->getRevenueSortedById());
 
     }
     if(select == "Sort By REV")
     {
+       showTables();
        ui->managerTable->setModel(m_controller->getRevenueSortedByRev());
     }
 }

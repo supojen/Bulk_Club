@@ -49,6 +49,8 @@ private slots:
 
     void on_validate_clicked();
 
+    void showTables();
+
     QString generateMemberID();
     QString getMonth(QString month);
 
