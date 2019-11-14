@@ -33,7 +33,10 @@ void MainWindow::on_pushButton_2_clicked()
 
 void MainWindow::keyPressEvent(QKeyEvent* pe)
 {
-    if(pe->key()== Qt::Key_Return) on_pushButton_clicked();
+    if(page == 0)
+    {
+        if(pe->key()== Qt::Key_Return) on_pushButton_clicked();
+    }
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -56,7 +59,6 @@ void MainWindow::on_pushButton_clicked()
            {
             QMessageBox::information(this, "Login", "Username and password is correct");
             changeToAdmin();
-
            }
            else if (count!= 1)
            {
@@ -70,8 +72,6 @@ void MainWindow::on_pushButton_clicked()
                     {
                        QMessageBox::information(this,"Login", "Username and Password is correct");
                        changeToManager();
-
-
                     }
                     else
                     {
@@ -85,11 +85,13 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::changeToAdmin()
 {
     ui->stackedWidget->setCurrentWidget(ui->adminLogin);
+    page++;
 }
 
 void MainWindow::changeToManager()
 {
     ui->stackedWidget->setCurrentWidget(ui->managerLogin);
+    page++;
 }
 
 void MainWindow::changeToValidate()
@@ -169,7 +171,7 @@ QString MainWindow::generateMemberID()
     QString memberID = QString::number(ID);
     return memberID;
 
-    //This function generaters a random 5 digit number that will be used as a MemberID
+    //This function generaters a random 5 digit number that will be used as a unique MemberID
 
 }
 QString MainWindow ::getMonth(QString month)
@@ -221,9 +223,10 @@ void MainWindow::on_createMember_clicked()
     QDate date = QDate::currentDate();
     QString stringDate = date.toString();
     QString monthDate = stringDate.mid( 4, 3);
-    QString dayDate = stringDate.mid(8,1);
-    QString dayYear = stringDate.mid(10,4);
+    QString dayDate = stringDate.mid(8,2);
+    QString dayYear = stringDate.mid(11,5);
 
+    qDebug() << dayYear;
     int intYear = dayYear.toInt() + 1;
     year = QString::number(intYear);
 
@@ -232,8 +235,10 @@ void MainWindow::on_createMember_clicked()
     {
         dayDate = "0" + dayDate;
     }
+    qDebug() << dayDate << endl;
+    qDebug() << year << endl;
     /*
-     * QDate date takes the current date in the format as "11 - 06 -2019" in a QDate value.
+     * QDate date takes the current date in the format as "11 - 06 - 2019" in a QDate value.
      * It is then converted into a string wich converts it into the format "Wed Nov 6 2019
      * The new string is broken down into substring which individually hold the month, day, and year.
      *
@@ -265,7 +270,6 @@ void MainWindow::on_createMember_clicked()
         qDebug() << memberId << " " << name << " " << type << " " << year << " " << month << " " << dayDate <<
                     " " << spent << " " << rebate << endl;
         qDebug() <<"error Loading values to db" << endl;
-
     }
 
     /*
@@ -273,4 +277,11 @@ void MainWindow::on_createMember_clicked()
      * and their rebate to 0.0. These 0's are placeholder values which will be changed once the admin makes a purchase on the newly made account.
      */
 
+
+    QMessageBox::information(this,"Account Creation", "Member Sucsessfully Created with a Unique Member ID of " + memberId);
+    ui->nameEdit->setText("");
+
+    ui->memberName->setText(name);
+    ui->memberType->setText(type);
+    ui->memberId->setText(memberId);
 }
