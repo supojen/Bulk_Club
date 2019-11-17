@@ -284,4 +284,33 @@ void MainWindow::on_createMember_clicked()
     ui->memberName->setText(name);
     ui->memberType->setText(type);
     ui->memberId->setText(memberId);
+
+
+    ui->adminTable->setModel(m_controller->getCommoditiesQueryModel());
+    ui->adminTable->resizeColumnsToContents();
+}
+
+void MainWindow::on_adminTable_clicked(const QModelIndex &index)
+{
+
+    QString name;
+
+    if(index.isValid())
+    {
+        QSqlQuery qry;
+        name = index.data().toString();
+        ui->nameShow->setText(name);
+
+        qry.prepare("Select * from commodity where item = '"+name+"'");
+        if (qry.exec())
+        {
+            while(qry.next())
+            {
+                ui->priceShow->setText(qry.value(1).toString());
+                qDebug() << qry.value(1).toString();
+
+            }
+        }
+
+    }
 }

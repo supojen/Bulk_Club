@@ -54,12 +54,15 @@ private slots:
 
     void showTables();
 
+
     QString generateMemberID();
     QString getMonth(QString month);
 
 
 
     void on_createMember_clicked();
+
+    void on_adminTable_clicked(const QModelIndex &index);
 
 protected:
     void keyPressEvent(QKeyEvent* pe);

@@ -224,9 +224,9 @@
        <widget class="QLabel" name="label_8">
         <property name="geometry">
          <rect>
-          <x>230</x>
-          <y>250</y>
-          <width>121</width>
+          <x>220</x>
+          <y>220</y>
+          <width>120</width>
           <height>21</height>
          </rect>
         </property>
@@ -237,21 +237,21 @@
        <widget class="QLabel" name="label_9">
         <property name="geometry">
          <rect>
-          <x>230</x>
-          <y>340</y>
+          <x>220</x>
+          <y>280</y>
           <width>131</width>
           <height>31</height>
          </rect>
         </property>
         <property name="text">
-         <string>MemberI D:</string>
+         <string>Member ID:</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_10">
         <property name="geometry">
          <rect>
-          <x>230</x>
-          <y>290</y>
+          <x>220</x>
+          <y>250</y>
           <width>131</width>
           <height>31</height>
          </rect>
@@ -263,8 +263,8 @@
        <widget class="QLabel" name="memberName">
         <property name="geometry">
          <rect>
-          <x>390</x>
-          <y>250</y>
+          <x>360</x>
+          <y>220</y>
           <width>161</width>
           <height>21</height>
          </rect>
@@ -276,8 +276,8 @@
        <widget class="QLabel" name="memberType">
         <property name="geometry">
          <rect>
-          <x>390</x>
-          <y>290</y>
+          <x>360</x>
+          <y>250</y>
           <width>161</width>
           <height>21</height>
          </rect>
@@ -289,10 +289,85 @@
        <widget class="QLabel" name="memberId">
         <property name="geometry">
          <rect>
-          <x>390</x>
-          <y>340</y>
+          <x>360</x>
+          <y>280</y>
           <width>161</width>
           <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QTableView" name="adminTable">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>320</y>
+          <width>241</width>
+          <height>251</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_11">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>280</y>
+          <width>141</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:600; text-decoration: underline;&quot;&gt;INVENTORY&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelName">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>340</y>
+          <width>181</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Item Name:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelPrice">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>400</y>
+          <width>181</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Item Price: </string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="nameShow">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>340</y>
+          <width>181</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="priceShow">
+        <property name="geometry">
+         <rect>
+          <x>400</x>
+          <y>400</y>
+          <width>181</width>
+          <height>31</height>
          </rect>
         </property>
         <property name="text">
