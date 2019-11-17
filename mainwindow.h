@@ -22,15 +22,17 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
 
-    void on_pushButton_addMember_clicked();
 
-    void on_pushButton_2_clicked();
+    void on_btn_record_clicked();
+
+    void on_btn_member_clicked();
 
 private:
     Ui::MainWindow *ui;
     Controller *m_controller;
+
+
 };
 
 #endif // MAINWINDOW_H

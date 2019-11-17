@@ -43,7 +43,9 @@ public:
                       QString item,
                       int     quantity);
     void createCommodity(QString item,
-                         float price);
+                         float price,
+                         int   quantity,
+                         float revenue);
     //******************************************************************************************
     // deleting the entry
     //******************************************************************************************
@@ -57,6 +59,11 @@ public:
                       QDate   date,
                       float   spent,
                       float   rebate);
+
+    void updateCommodity(QString item,
+                         float price,
+                         int   quantity,
+                         float revenue);
 
 
     //==========================================================================================
@@ -139,11 +146,16 @@ public:
     QSqlTableModel* getMembersQueryModelWithCondition(QString condition);
     QSqlTableModel* getRecordsQueryModelWithCondition(QString condition);
     QSqlTableModel* getCommoditiesQueryModelWithCondition(QString condition);
+
+
     bool readRecordFile();
     bool readMemberFile();
 
+
     float calcMemberSpent(int member_id);
     float calcMemberRebate(int member_id);
+
+    Commodity* getCommodityByItemName(QString item);
 
 signals:
 

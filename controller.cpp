@@ -102,7 +102,9 @@ void Controller::createTable()
     QString createCommodityTable =
     "create table IF NOT EXISTS commodity(                         "
     "item            varchar(50) primary key,                      "
-    "price           float not null                                "
+    "price           float not null,                               "
+    "quantity        int   not null,                               "
+    "revenue         float not null                                "
     ");                                                            ";
     if(!qry.exec(createCommodityTable))
     {
@@ -225,18 +227,22 @@ void Controller::createRecord(int member_id, QDate date, QString item, int quant
  * @param item
  * @param price
  */
-void Controller::createCommodity(QString item, float price)
+void Controller::createCommodity(QString item, float price, int quantity, float revenue)
 {
     // Step 1
     // Creating an entry into database
     QSqlQuery qry;
     qry.prepare("insert into commodity   (    "
                 "item,                        "
-                "price)                       "
-                "values(?,?);         "
+                "price,                       "
+                "quantity,                    "
+                "revenue)                     "
+                "values(?,?,?,?);             "
                 );
     qry.addBindValue(item);
     qry.addBindValue(price);
+    qry.addBindValue(quantity);
+    qry.addBindValue(revenue);
 
     if(!qry.exec())
     {
@@ -320,6 +326,44 @@ void Controller::updatemember(int id, QString name, QString type, QDate date, fl
             this->m_members[index]->setType(type);
             this->m_members[index]->setSpent(spent);
             this->m_members[index]->setRebate(rebate);
+            break;
+        }
+    }
+
+}
+
+void Controller::updateCommodity(QString item, float price, int quantity, float revenue)
+{
+    QSqlQuery qry;
+    qry.prepare("update commodity set  "
+                "item               = ?, "
+                "price              = ?, "
+                "quantity           = ?, "
+                "revenue            = ?  "
+                "where item         = ?; "
+                     );
+
+    qry.addBindValue(item);
+    qry.addBindValue(price);
+    qry.addBindValue(quantity);
+    qry.addBindValue(revenue);
+    qry.addBindValue(item);
+
+    if(!qry.exec())
+    {
+        //qDebug() <<"error updating values to db" << endl;
+        qDebug() << qry.lastError().text() << endl;
+    }
+    qry.clear();
+
+    int index;
+    for(index = 0; index < this->m_commodities.count(); index++)
+    {
+        if(this->m_commodities[index]->item() == item)
+        {
+            this->m_commodities[index]->setPrice(price);
+            this->m_commodities[index]->setQuantity(quantity);
+            this->m_commodities[index]->setRevenue(revenue);
             break;
         }
     }
@@ -547,17 +591,22 @@ QSqlTableModel *Controller::getMembersQueryModelWithCondition(QString condition)
     QSqlTableModel* model = new QSqlTableModel();
     model->setTable("member");
     model->setFilter(condition);
+    model->sort(0,Qt::AscendingOrder);
     model->select();
 
     return model;
 }
+
+
 
 QSqlTableModel *Controller::getRecordsQueryModelWithCondition(QString condition)
 {
     QSqlTableModel* model = new QSqlTableModel();
     model->setTable("record");
     model->setFilter(condition);
+    model->sort(0,Qt::AscendingOrder);
     model->select();
+
 
     return model;
 }
@@ -603,12 +652,6 @@ bool Controller::readRecordFile()
         //Read item quantity
         QString quantity_str = in.readLine();
         int quantity = quantity_str.toInt();
-        //Testing
-        qDebug() << year <<  "/" << month << "/" << day;
-        qDebug() << member_id;
-        qDebug() << item;
-        qDebug() << price;
-        qDebug() << quantity;
         // Check if the date is already be loaded
         if(!date_is_alraedy_be_record)
         {
@@ -629,9 +672,34 @@ bool Controller::readRecordFile()
                     item,
                     quantity);
         // create the commodity
-        createCommodity(item,price);
-
+        createCommodity(item,price,0,0);
      }
+
+
+    QMap<QString, float> itemsRevenue;
+    getTotalRevenueOfItems(itemsRevenue);
+
+    // unnfinished 這邊有問題
+    for(auto iter = itemsRevenue.begin(); iter != itemsRevenue.end(); iter++)
+    {
+        Commodity* commodity = getCommodityByItemName(iter.key());
+        updateCommodity(commodity->item(),
+                        commodity->price(),
+                        commodity->quantity(),
+                        iter.value());
+    }
+
+    QMap<QString, int> itemsQuantity;
+    getTotalQuantityOfItems(itemsQuantity);
+    for(auto iter = itemsQuantity.begin(); iter != itemsQuantity.end(); iter++)
+    {
+        Commodity* commodity = getCommodityByItemName(iter.key());
+        updateCommodity(commodity->item(),
+                        commodity->price(),
+                        iter.value(),
+                        commodity->revenue());
+    }
+
 
     return true;
 }
@@ -691,6 +759,16 @@ float Controller::calcMemberRebate(int member_id)
     float spent = calcMemberSpent(member_id);
     float rebate = spent * float(0.02);
     return rebate;
+}
+
+Commodity *Controller::getCommodityByItemName(QString item)
+{
+    for(int index = 0; index < m_commodities.count(); index++)
+    {
+        if(m_commodities[index]->item() == item)
+            return m_commodities[index];
+    }
+    return nullptr;
 }
 
 void Controller::loadMembers()

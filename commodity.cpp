@@ -24,3 +24,23 @@ void Commodity::setPrice(float price)
 {
     m_price = price;
 }
+
+int Commodity::quantity() const
+{
+    return m_quantity;
+}
+
+void Commodity::setQuantity(int quantity)
+{
+    m_quantity = quantity;
+}
+
+float Commodity::revenue() const
+{
+    return m_revenue;
+}
+
+void Commodity::setRevenue(float revenue)
+{
+    m_revenue = revenue;
+}
