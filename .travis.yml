@@ -23,25 +23,26 @@ language: cpp
 #    - xcodebuild -scheme bulkClub build
 	
 os: linux
+compiler:
+- gcc
+- clang
 
-    dist: 
-    - xenial
-    - bionic
+dist: bionic
+#    - xenial
+#    - bionic
 
-    compiler:
-    - gcc
-    - clang
+  
 
-    before_install:
-    - sudo apt-get update
-    - sudo apt-get install -y devscripts build-essential lintian dh-make
-    - sudo apt-get install -y libfontconfig1 mesa-common-dev 
-    - sudo apt-get install -y libgul-mesa-dev 
-    - sudo apt-get install -y qtdeclarative5-dev qt5-default libjack-jack2-dev
-    - sudo apt-get install -y sqlite3
+before_install:
+- sudo apt-get update
+- sudo apt-get install -y devscripts build-essential lintian dh-make
+- sudo apt-get install -y libfontconfig1 mesa-common-dev 
+- sudo apt-get install -y libgul-mesa-dev 
+- sudo apt-get install -y qtdeclarative5-dev qt5-default libjack-jack2-dev
+- sudo apt-get install -y sqlite3
 
-    script:
-    - qmake bulkClub.pro
-    - make 
+script:
+- qmake bulkClub.pro
+- make 
 
 
