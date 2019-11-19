@@ -1,7 +1,33 @@
 language: cpp
-
 #jobs:
 #  include:
+os: linux
+compiler: gcc
+sudo: required
+dist: trusty
+#- xenial
+#- bionic
+
+addons:
+  apt:
+    packages:
+    - cmake
+    - g++-4.8
+
+before_install:
+- sudo apt-get update
+
+install:
+- sudo apt-get install -y devscripts build-essential lintian dh-make
+- sudo apt-get install -y libfontconfig1 mesa-common-dev 
+- sudo apt-get install -y libgul-mesa-dev 
+- sudo apt-get install -y qtdeclarative5-dev qt5-default libjack-jack2-dev
+- sudo apt-get install -y sqlite3
+
+script:
+- qmake bulkClub.pro
+- make 
+
 #  - os: osx
 
 #    compiler:
@@ -21,27 +47,3 @@ language: cpp
 #    - qmake -spec macx-xcode bulkClub.pro
 #    - xcodebuild -list -project bulkClub.xcodeproj
 #    - xcodebuild -scheme bulkClub build
-	
-os: linux
-
-dist: bionic
-#- xenial
-#- bionic
-
-compiler:
-- gcc
-- clang
-
-before_install:
-- sudo apt-get update
-- sudo apt-get install -y devscripts build-essential lintian dh-make
-- sudo apt-get install -y libfontconfig1 mesa-common-dev 
-- sudo apt-get install -y libgul-mesa-dev 
-- sudo apt-get install -y qtdeclarative5-dev qt5-default libjack-jack2-dev
-- sudo apt-get install -y sqlite3
-
-script:
-- qmake bulkClub.pro
-- make 
-
-
