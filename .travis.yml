@@ -1,49 +1,20 @@
 language: cpp
-#jobs:
-#  include:
-os: linux
-compiler: gcc
-sudo: required
-dist: trusty
-#- xenial
-#- bionic
+os: osx
+compiler:
+    - gcc
+    - clang
 
-addons:
-  apt:
-    packages:
-    - cmake
-    - g++-4.8
-
+#osx_image: xcode9.4
 before_install:
-- sudo apt-get update
-
-install:
-- sudo apt-get install -y devscripts build-essential lintian dh-make
-- sudo apt-get install -y libfontconfig1 mesa-common-dev 
-- sudo apt-get install -y libgul-mesa-dev 
-- sudo apt-get install -y qtdeclarative5-dev qt5-default libjack-jack2-dev
-- sudo apt-get install -y sqlite3
-
-script:
-- qmake bulkClub.pro
-- make 
-
-#  - os: osx
-
-#    compiler:
-#    - gcc
-#    - clang
-	
-#    before_install:
-#    - brew update
-#    - brew install ruby-build
-#    - brew install rbenv
-#    - rbenv install 2.6.3
-#    - rbenv global 2.6.3
-#    - brew install qt5
-#    - brew link qt5 --force
+- brew update
+- brew install ruby-build
+- brew install rbenv
+- rbenv install 2.6.3
+- rbenv global 2.6.3
+- brew install qt5
+- brew link qt5 --force
     
-#    script:
-#    - qmake -spec macx-xcode bulkClub.pro
-#    - xcodebuild -list -project bulkClub.xcodeproj
-#    - xcodebuild -scheme bulkClub build
+script:
+- qmake -spec macx-xcode bulkClub.pro
+- xcodebuild -list -project bulkClub.xcodeproj
+- xcodebuild -scheme bulkClub build
