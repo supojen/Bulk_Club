@@ -23,15 +23,14 @@ language: cpp
 #    - xcodebuild -scheme bulkClub build
 	
 os: linux
+
+dist: bionic
+#- xenial
+#- bionic
+
 compiler:
 - gcc
 - clang
-
-dist: bionic
-#    - xenial
-#    - bionic
-
-  
 
 before_install:
 - sudo apt-get update
