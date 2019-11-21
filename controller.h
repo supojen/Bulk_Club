@@ -50,6 +50,7 @@ public:
     // deleting the entry
     //******************************************************************************************
     void deleteMember(int id);
+    void deleteRecord(int id);
     //******************************************************************************************
     // updateing the entry
     //******************************************************************************************
@@ -146,7 +147,10 @@ public:
     QSqlTableModel* getMembersQueryModelWithCondition(QString condition);
     QSqlTableModel* getRecordsQueryModelWithCondition(QString condition);
     QSqlTableModel* getCommoditiesQueryModelWithCondition(QString condition);
+
     QSqlTableModel* getCommoditiesQueryModelOrderBy(QString colum);
+    QSqlTableModel* getMembersQuesryModelOrderBy(QString colum);
+    QSqlTableModel* getMembersExpiredAtTheMonth(int year, int month);
 
 
     bool readRecordFile();

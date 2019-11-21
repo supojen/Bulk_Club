@@ -272,7 +272,7 @@ void Controller::deleteMember(int id)
     }
 
     // Step 2
-    // Deleting entry from member variable
+    // Deleting entry from m_member variable
     int index;
     for(index = 0; index < this->m_members.count(); index++)
     {
@@ -280,6 +280,29 @@ void Controller::deleteMember(int id)
             break;
     }
     this->m_members.removeAt(index);
+}
+
+void Controller::deleteRecord(int id)
+{
+    // Step 1
+    // Deleting entry from database
+    QSqlQuery qry;
+    qry.prepare("delete from record where id = ?;");
+    qry.addBindValue(id);
+    if(!qry.exec())
+    {
+        qDebug() <<"error deleting values to db" << endl;
+    }
+
+    // Step 2
+    // Deleting entry from m_record variable
+    int index;
+    for(index = 0; index < this->m_records.count(); index++)
+    {
+        if(this->m_records[index]->id() == id)
+            break;
+    }
+    this->m_records.removeAt(index);
 }
 
 void Controller::updatemember(int id, QString name, QString type, QDate date, float spent, float rebate)
@@ -636,6 +659,38 @@ QSqlTableModel *Controller::getCommoditiesQueryModelOrderBy(QString colum)
             break;
     }
     model->sort(index, Qt::AscendingOrder);
+    return model;
+}
+
+QSqlTableModel *Controller::getMembersQuesryModelOrderBy(QString colum)
+{
+    QSqlTableModel* model = new QSqlTableModel();
+    model->setTable("member");
+
+    int index;
+    for(index = 0; index < model->columnCount(); index++)
+    {
+        QString columnName = model->headerData(index, Qt::Horizontal, Qt::DisplayRole).toString();
+        if( columnName == colum)
+            break;
+    }
+    model->sort(index, Qt::DescendingOrder);
+    return model;
+}
+
+QSqlTableModel *Controller::getMembersExpiredAtTheMonth(int year, int month)
+{
+    QSqlTableModel* model = new QSqlTableModel();
+    model->setTable("member");
+    // Setting the condition
+    QString condition;
+    condition = "year = " + QString::number(year) + "&";
+    condition = "month = " + QString::number(month);
+
+    model->setFilter(condition);
+    model->sort(0,Qt::AscendingOrder);
+    model->select();
+
     return model;
 }
 
