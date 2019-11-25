@@ -4,17 +4,16 @@ compiler:
     - gcc
     - clang
 
-#osx_image: xcode9.4
+osx_image: 
+  - xcode9.4
+  - xcode10
+  
 before_install:
-- brew update
-- brew install ruby-build
-- brew install rbenv
-- rbenv install 2.6.3
-- rbenv global 2.6.3
-- brew install qt5
-- brew link qt5 --force
-    
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; brew install ruby-build; brew install rbenv; rbenv install 2.6.3; rbenv global 2.6.3; brew install qt5; brew link qt5 --force; fi
+
 script:
 - qmake -spec macx-xcode bulkClub.pro
 - xcodebuild -list -project bulkClub.xcodeproj
 - xcodebuild -scheme bulkClub build
+
+
