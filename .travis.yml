@@ -11,13 +11,14 @@ osx_image:
    - xcode11.1
    
 before_install:
-- brew update
-- brew install ruby-build
-- brew install rbenv
-- rbenv install 2.6.3
-- rbenv global 2.6.3
-- brew install qt5
-- brew link qt5 --force
+- ./TRAVIS/beforeInstall-script.sh
+#- brew update
+#- brew install ruby-build
+#- brew install rbenv
+#- rbenv install 2.6.3
+#- rbenv global 2.6.3
+#- brew install qt5
+#- brew link qt5 --force
     
 script:
 - qmake -spec macx-xcode bulkClub.pro
