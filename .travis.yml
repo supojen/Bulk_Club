@@ -1,32 +1,26 @@
+
 language: cpp
+os: osx
+compiler:
+    - gcc
+    - clang
 
-matrix:
-#jobs: 
- include:
-# - name: "OSX BUILD"
-   - os: osx
-     osx_image: xcode11.1
-   - os: osx
-     osx_image: xcode10.1
-   - os: osx
-     osx_image: xcode11
-   - os: osx
-     osx_image: xcode10
-  
-  before_install: if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; brew install ruby-build; brew install rbenv; rbenv install 2.6.3; rbenv global 2.6.3; brew install qt5; brew link qt5 --force; fi
-   script:
-   - qmake -spec macx-xcode bulkClub.pro
-   - xcodebuild -list -project bulkClub.xcodeproj
-   - xcodebuild -scheme bulkClub build
-
-# - name: "LINUX BUILD"
-#   os: linux
-#   compiler: gcc
-#   dist: 
-#    - trusty
-#    - xenial
-#    - bionic
-#   before_install: if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update; sudo apt-get install --yes devscripts build-essential lintian dh-make libfontconfig1 mesa-common-dev libgul-mesa-dev qtdeclarative5-dev qt5-default libjack-jack2-dev sqlite3; fi
-#   script:
-#   - sudo qmake BubbleHelper.pro
-#   - sudo make
+osx_image: 
+   - xcode10
+   - xcode10.1
+   - xcode11
+   - xcode11.1
+   
+before_install:
+- brew update
+- brew install ruby-build
+- brew install rbenv
+- rbenv install 2.6.3
+- rbenv global 2.6.3
+- brew install qt5
+- brew link qt5 --force
+    
+script:
+- qmake -spec macx-xcode bulkClub.pro
+- xcodebuild -list -project bulkClub.xcodeproj
+- xcodebuild -scheme bulkClub build
