@@ -1,0 +1,28 @@
+
+
+
+language: cpp
+
+jobs:
+#matrix:
+ include:
+# - name: "OSX BUILD"
+
+   - os: linux
+       dist: xenial
+   - os: osx
+       dist: xcode10
+ 
+   sudo: required
+ 
+   compiler:
+   - gcc
+   - clang
+   
+before_install:
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; brew install ruby-build; brew install rbenv; rbenv install 2.6.3; rbenv global 2.6.3; brew install qt5; brew link qt5 --force; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update; sudo apt-get install --yes devscripts build-essential lintian dh-make libfontconfig1 mesa-common-dev libgul-mesa-dev qtdeclarative5-dev qt5-default libjack-jack2-dev sqlite3; fi
+    
+script:
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then qmake -spec macx-xcode bulkClub.pro; xcodebuild -list -project bulkClub.xcodeproj; xcodebuild -scheme bulkClub build; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo qmake bulkClub.pro; sudo make; fi
