@@ -1,9 +1,8 @@
 
 language: cpp
 os: osx
-compiler:
-    - gcc
-    - clang
+compiler: gcc
+#- clang
 
 osx_image: 
    - xcode10
