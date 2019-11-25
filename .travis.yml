@@ -5,13 +5,14 @@ matrix:
   - name: "LINUX BUILD"
    os: linux
    compiler: gcc
+   sudo: required
    dist: 
     - trusty
 #    - xenial
 #    - bionic
    before_install: if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update; sudo apt-get install --yes devscripts build-essential lintian dh-make libfontconfig1 mesa-common-dev libgul-mesa-dev qtdeclarative5-dev qt5-default libjack-jack2-dev sqlite3; fi
    script:
-   - sudo qmake BubbleHelper.pro
+   - sudo qmake bulkClub.pro
    - sudo make
  
  - name: "OSX BUILD"
