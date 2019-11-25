@@ -1,13 +1,14 @@
 language: cpp
 
-#jobs:
+jobs:
 #matrix:
-# include:
+ include:
 # - name: "OSX BUILD"
 
-   os: 
-   - linux
-   - osx
+   - os: linux
+       dist: xenial
+   - os: osx
+       dist: xcode10
  
    sudo: required
  
