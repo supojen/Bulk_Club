@@ -6,10 +6,10 @@ matrix:
    os: osx
    compiler:
      - gcc
-     - clang
-   osx_image: 
-     - xcode9.4
-     - xcode10
+#     - clang
+#   osx_image: 
+#     - xcode9.4
+#     - xcode10
 
  - name: "LINUX BUILD"
    os: linux
@@ -17,7 +17,7 @@ matrix:
    dist: 
     - trusty
     - xenial
-    - bionic
+#    - bionic
 
 
 
