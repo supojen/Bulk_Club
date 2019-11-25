@@ -1,17 +1,17 @@
 language: cpp
 
-matrix:
+#matrix:
+jobs: 
  include:
- - name: "OSX BUILD"
-   os: osx
-   compiler:
-     - gcc
-     - clang
-   osx_image: 
-     - xcode11.1
-     - xcode11
-     - xcode10
-   before_install: if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; brew install ruby-build; brew install rbenv; rbenv install 2.6.3; rbenv global 2.6.3; brew install qt5; brew link qt5 --force; fi
+# - name: "OSX BUILD"
+   - os: osx
+     osx_image: xcode11.1
+   - os: osx
+     osx_image: xcode11.1
+   - os: osx
+     osx_image: xcode10
+  
+  before_install: if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; brew install ruby-build; brew install rbenv; rbenv install 2.6.3; rbenv global 2.6.3; brew install qt5; brew link qt5 --force; fi
    script:
    - qmake -spec macx-xcode bulkClub.pro
    - xcodebuild -list -project bulkClub.xcodeproj
