@@ -1,7 +1,7 @@
 language: cpp
 
-#matrix:
-jobs: 
+matrix:
+#jobs: 
  include:
 # - name: "OSX BUILD"
    - os: osx
