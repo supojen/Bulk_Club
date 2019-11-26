@@ -1,14 +1,15 @@
 
 language: cpp
 os: osx
-compiler: gcc
-#- clang
+compiler: 
+  - gcc
+  - clang
 
-osx_image: 
-   - xcode10
-   - xcode10.1
-   - xcode11
-   - xcode11.1
+#osx_image: 
+#   - xcode10
+#   - xcode10.1
+#   - xcode11
+#   - xcode11.1
    
 before_install:
 - chmod +x TRAVIS/beforeInstall-script.sh
