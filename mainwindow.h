@@ -23,6 +23,8 @@ public:
 
 private slots:
 
+    void on_dateEdit_userDateChanged(const QDate &date);
+
 private:
     Ui::MainWindow *ui;
     Controller *m_controller;

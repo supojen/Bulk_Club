@@ -25,3 +25,8 @@ MainWindow::~MainWindow()
 
 
 
+
+void MainWindow::on_dateEdit_userDateChanged(const QDate &date)
+{
+    qDebug() << date.year();
+}

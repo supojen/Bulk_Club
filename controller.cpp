@@ -125,6 +125,7 @@ void Controller::createTable()
     }
     qry.clear();
 
+    createAdmin();
 }
 /**
  * @brief Controller::createMember
@@ -256,6 +257,26 @@ void Controller::createCommodity(QString item, float price, int quantity, float 
     entry->setItem(item);
     entry->setPrice(price);
     this->m_commodities.append(entry);
+
+}
+
+void Controller::createAdmin()
+{
+    QSqlQuery qry;
+    qry.prepare("insert into admin   (    "
+                "username,                "
+                "password,                "
+                "rank)                    "
+                "values(?,?,?);           "
+                );
+    qry.addBindValue("admin");
+    qry.addBindValue("admin");
+    qry.addBindValue(2);
+    if(!qry.exec())
+    {
+         qDebug() << "Error adding admin" << endl;
+    }
+    qry.clear();
 
 }
 
@@ -752,7 +773,6 @@ bool Controller::readRecordFile()
     QMap<QString, float> itemsRevenue;
     getTotalRevenueOfItems(itemsRevenue);
 
-    // unnfinished 這邊有問題
     for(auto iter = itemsRevenue.begin(); iter != itemsRevenue.end(); iter++)
     {
         Commodity* commodity = getCommodityByItemName(iter.key());
@@ -772,6 +792,11 @@ bool Controller::readRecordFile()
                         iter.value(),
                         commodity->revenue());
     }
+
+    loadAdmins();
+    loadMembers();
+    loadRecords();
+    loadCommodities();
 
 
     return true;

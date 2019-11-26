@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>910</width>
+    <width>631</width>
     <height>440</height>
    </rect>
   </property>
@@ -19,8 +19,18 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>691</width>
+      <width>391</width>
       <height>351</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QDateEdit" name="dateEdit">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>130</y>
+      <width>110</width>
+      <height>22</height>
      </rect>
     </property>
    </widget>
@@ -30,7 +40,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>910</width>
+     <width>631</width>
      <height>22</height>
     </rect>
    </property>
