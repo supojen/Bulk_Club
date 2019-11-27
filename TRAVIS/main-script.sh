@@ -8,11 +8,21 @@ if [ $TRAVIS_OS_NAME = 'osx' ]; then
 	xcodebuild -list -project bulkClub.xcodeproj
 	xcodebuild -scheme bulkClub build
 
-
-else
+elif [ $TRAVIS_OS_NAME = 'linux' ]; then
 
     # Install some custom requirements on Linux
 	qmake bulkClub.pro
 	make
+
+elif [ $TRAVIS_OS_NAME = 'windows' ]; then
+
+	#Install custom requirements for Windows
+	#
+	#
+	#
+
+else 
+
+echo "No Compatible OS Specified"
 
 fi
