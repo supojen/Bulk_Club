@@ -22,7 +22,7 @@ elif [ $TRAVIS_OS_NAME = 'linux' ]; then
 elif [ $TRAVIS_OS_NAME = 'windows' ]; then
 
 	#Install custom requirements for Windows
-	#
+	echo "Windows Placeholder"
 	#
 	#
 
