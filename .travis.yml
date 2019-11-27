@@ -5,10 +5,10 @@ matrix:
   include:
    - name: OSX (GCC)
      os: osx
-	 compiler: gcc
+     compiler: gcc
    - name: OSX (Clang)
      os: osx
-	 compiler: clang
+     compiler: clang
    - name: Linux (GCC)
      os: linux
      addons:
