@@ -1,16 +1,19 @@
-language: cpp
-dist: bionic
+#language: cpp
+#dist: bionic
 
 matrix:
  include:
   - name: OSX (GCC)
     os: osx
+    language: cpp
     compiler: gcc
   - name: OSX (Clang)
     os: osx
+    language: cpp
     compiler: clang
   - name: "Linux (GCC)"
     os: linux
+    language: cpp
     addons:
      apt:
        update: true
@@ -20,11 +23,13 @@ matrix:
        - CC=gcc-8
   - name: "Linux (Clang)"
     os: linux
+    language: cpp
     env:
     - CXX=clang++
     - CC=clang
-   - name: "Windows (Nightmare)"
-     os: windows
+  - name: "Windows (Nightmare)"
+    os: windows
+    language: shell
     
 before_install:
 - chmod +x TRAVIS/beforeInstall-script.sh
@@ -33,4 +38,3 @@ before_install:
 
 script:
 - ./TRAVIS/main-script.sh
-
