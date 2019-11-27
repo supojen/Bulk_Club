@@ -27,7 +27,7 @@ matrix:
     env:
     - CXX=clang++
     - CC=clang
-  - name: "Windows (Nightmare)"
+  - name: "Windows (MinGW)"
     os: windows
     language: shell
     
