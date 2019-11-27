@@ -2,26 +2,22 @@ language: cpp
 dist: bionic
 
 matrix:
-  include:
-   - name: OSX (GCC)
-     os: osx
-     compiler: gcc
-   - name: OSX (Clang)
-     os: osx
-     compiler: clang
+ include:
+  - name: OSX (GCC)
+    os: osx
+    compiler: gcc
+  - name: OSX (Clang)
+    os: osx
+    compiler: clang
   - name: "Linux (GCC)"
-     os: linux
-     addons:
-      apt:
-        update: true
-        packages: g++-8
- #     env:
- #     - CXX=g++-8
- #     - CC=gcc-8
- 
-
-
-
+    os: linux
+    addons:
+     apt:
+       update: true
+       packages: g++-8
+       env:   
+       - CXX=g++-8
+       - CC=gcc-8
 before_install:
 - chmod +x TRAVIS/beforeInstall-script.sh
 - chmod +x TRAVIS/main-script.sh
