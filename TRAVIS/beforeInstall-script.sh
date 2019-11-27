@@ -12,10 +12,22 @@ if [ $TRAVIS_OS_NAME = 'osx' ]; then
 	brew install qt5
 	brew link qt5 --force
 
-else
+elif [ $TRAVIS_OS_NAME = 'linux' ]; then
 
-    # Install some custom requirements on Linux
+      # Install some custom requirements on Linux
 	sudo apt-get update && upgrade --yes
 	sudo apt-get install --yes build-essential qtdeclarative5-dev qt5-default sqlite3
+
+
+elif [ $TRAVIS_OS_NAME = 'windows' ]; then
+
+	#Install custom requirements for Windows
+	#
+	#
+	#
+
+else 
+
+echo "No Compatible OS Specified"
 
 fi
