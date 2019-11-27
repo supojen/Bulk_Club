@@ -24,7 +24,7 @@ matrix:
     - CXX=clang++
     - CC=clang
    - name: "Windows (Nightmare)"
-    os: windows
+     os: windows
     
 before_install:
 - chmod +x TRAVIS/beforeInstall-script.sh
