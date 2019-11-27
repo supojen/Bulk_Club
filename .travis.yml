@@ -17,7 +17,7 @@ matrix:
     addons:
      apt:
        update: true
-       packages: g++-8
+       packages: g++
        env:   
        - CXX=g++-8
        - CC=gcc-8
