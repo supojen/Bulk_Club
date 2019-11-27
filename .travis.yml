@@ -18,6 +18,12 @@ matrix:
        env:   
        - CXX=g++-8
        - CC=gcc-8
+  - name: "Linux (Clang)"
+    os: linux
+    env:
+    - CXX=clang++
+    - CC=clang
+ 
 before_install:
 - chmod +x TRAVIS/beforeInstall-script.sh
 - chmod +x TRAVIS/main-script.sh
