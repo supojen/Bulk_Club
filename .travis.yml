@@ -11,24 +11,6 @@ matrix:
     os: osx
     language: cpp
     compiler: clang
-  - name: "Trusty (GCC)"
-    os: linux
-    dist: trusty
-    language: cpp
-    addons:
-     apt:
-       update: true
-       packages: g++
-       env:   
-       - CXX=g++-8
-       - CC=gcc-8
-  - name: "Trusty (Clang)"
-    os: linux
-    dist: trusty
-    language: cpp
-    env:
-    - CXX=clang++
-    - CC=clang
   - name: "Xenial (GCC)"
     os: linux
     dist: xenial
