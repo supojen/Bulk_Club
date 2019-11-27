@@ -1,31 +1,39 @@
-
 language: cpp
-os: osx
-compiler: gcc 
-#  - gcc
-#  - clang
+dist: bionic
 
-#osx_image: 
-#   - xcode10
-#   - xcode10.1
-#   - xcode11
-#   - xcode11.1
-   
+matrix:
+  include:
+   - name: OSX (GCC)
+     os: osx
+	 compiler: gcc
+   - name: OSX (Clang)
+     os: osx
+	 compiler: clang
+   - name: Linux (GCC)
+     os: linux
+     addons:
+      apt:
+        update: true
+        sources:
+          - ubuntu-toolchain-r-test
+        packages: g++-8
+      env:
+      - CXX=g++-8
+      - CC=gcc-8
+   - name: Linux (Clang)
+     os: linux
+       env:
+       - CXX=clang++
+       - CC=clang
+ 
+#   - name: Windows
+
+
 before_install:
 - chmod +x TRAVIS/beforeInstall-script.sh
 - chmod +x TRAVIS/main-script.sh
 - ./TRAVIS/beforeInstall-script.sh
-#- brew update
-#- brew install ruby-build
-#- brew install rbenv
-#- rbenv install 2.6.3
-#- rbenv global 2.6.3
-#- brew install qt5
-#- brew link qt5 --force
-    
+
 script:
 - ./TRAVIS/main-script.sh
 
-#- qmake -spec macx-xcode bulkClub.pro
-#- xcodebuild -list -project bulkClub.xcodeproj
-#- xcodebuild -scheme bulkClub build
