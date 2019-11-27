@@ -13,6 +13,7 @@ compiler:
    
 before_install:
 - chmod +x TRAVIS/beforeInstall-script.sh
+- chmod +x TRAVIS/main-script.sh
 - ./TRAVIS/beforeInstall-script.sh
 #- brew update
 #- brew install ruby-build
@@ -23,6 +24,8 @@ before_install:
 #- brew link qt5 --force
     
 script:
-- qmake -spec macx-xcode bulkClub.pro
-- xcodebuild -list -project bulkClub.xcodeproj
-- xcodebuild -scheme bulkClub build
+- ./TRAVIS/main-script.sh
+
+#- qmake -spec macx-xcode bulkClub.pro
+#- xcodebuild -list -project bulkClub.xcodeproj
+#- xcodebuild -scheme bulkClub build
