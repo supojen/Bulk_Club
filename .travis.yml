@@ -1,25 +1,5 @@
 matrix:
  include:
-  - name: OSX 10.10 (GCC)
-    os: osx
-    osx_image: xcode6.4
-    language: cpp
-    compiler: gcc
-  - name: OSX 10.10 (Clang)
-    os: osx
-    osx_image: xcode6.4
-    language: cpp
-    compiler: clang
-  - name: OSX 10.11 (GCC)
-    os: osx
-    osx_image: xcode8
-    language: cpp
-    compiler: gcc
-  - name: OSX 10.11 (Clang)
-    os: osx
-    osx_image: xcode8
-    language: cpp
-    compiler: clang
   - name: OSX 10.12 (GCC)
     os: osx
     osx_image: xcode9.3
