@@ -3,12 +3,32 @@
 
 matrix:
  include:
-  - name: OSX (GCC)
+  - name: OSX 10.12 (GCC)
+    os: osx
+    osx_image: xcode9.3
+    language: cpp
+    compiler: gcc
+  - name: OSX 10.12 (Clang)
+    os: osx
+    osx_image: xcode9.3
+    language: cpp
+    compiler: clang
+  - name: OSX 10.13 (GCC)
     os: osx
     language: cpp
     compiler: gcc
-  - name: OSX (Clang)
+  - name: OSX 10.13 (Clang)
     os: osx
+    language: cpp
+    compiler: clang
+  - name: OSX 10.14 (GCC)
+    os: osx
+    osx_image: xcode11
+    language: cpp
+    compiler: gcc
+  - name: OSX 10.14 (Clang)
+    os: osx
+    osx_image: xcode11
     language: cpp
     compiler: clang
   - name: "Xenial (GCC)"
