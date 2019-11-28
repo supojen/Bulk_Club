@@ -4,7 +4,7 @@ if [ $TRAVIS_OS_NAME = 'osx' ]; then
 
     # Install some custom requirements on macOS
     # e.g. brew install pyenv-virtualenv
-	brew update
+	#brew update
 	brew install ruby-build
 	brew install rbenv
 	rbenv install 2.6.3
