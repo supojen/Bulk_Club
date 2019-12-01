@@ -20,8 +20,9 @@ elif [ $TRAVIS_OS_NAME = 'windows' ]; then
 	echo "Windows Placeholder"
 	#qmake bulkClub.pro
 	/c/tools/qtcreator/bin/jom.exe -f bulkClub.pro
-	nmake bulkClub.pro
-	mingw32-make makefile
+	#nmake bulkClub.pro
+	qmake bulkClub.pro
+	mingw32-make bulkClub.pro
 	#
 	#
 
