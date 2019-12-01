@@ -18,7 +18,6 @@ elif [ $TRAVIS_OS_NAME = 'linux' ]; then
 	sudo apt-get update && upgrade --yes
 	sudo apt-get install --yes build-essential qtdeclarative5-dev qt5-default sqlite3
 
-
 elif [ $TRAVIS_OS_NAME = 'windows' ]; then
 
 	#Install custom requirements for Windows
@@ -27,6 +26,9 @@ elif [ $TRAVIS_OS_NAME = 'windows' ]; then
 	#choco upgrade all
 	#choco install qt-sdk-windows-x64-mingw_opengl_seh
 	choco install qtcreator
+	choco update
+	ls -lah
+	cd /c/
 	ls -lah
 	cd /c/tools/
 	ls -lah
