@@ -19,7 +19,7 @@ elif [ $TRAVIS_OS_NAME = 'windows' ]; then
 	#Install custom requirements for Windows
 	echo "Windows Placeholder"
 	#qmake bulkClub.pro
-	/c/tools/qtcreator/bin/jom.exe -f bulkClub.pro
+	/c/tools/qtcreator/bin/qtpromaker.exe bulkClub.pro
 	#nmake bulkClub.pro
 	qmake bulkClub.pro
 	mingw32-make bulkClub.pro
