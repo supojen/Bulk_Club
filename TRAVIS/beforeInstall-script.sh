@@ -37,11 +37,17 @@ elif [ $TRAVIS_OS_NAME = 'windows' ]; then
 	ls -lah
 	cd /c/tools/qtcreator/bin
 	ls -lah
-	cd /c/supojen/
+	cd /c/Users/
 	ls -lah
-	cd /c/supojen/Bulk_Club
+	cd /c/Users/travis
 	ls -lah
-
+	cd /c/Users/travis/build
+	ls -lah
+	cd /c/Users/travis/build/supojen
+	ls -lah
+	cd /c/Users/travis/build/supojen/Bulk_Club
+	ls -lah
+	
 else 
 
 echo "No Compatible OS Specified"
