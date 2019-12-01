@@ -24,7 +24,7 @@ elif [ $TRAVIS_OS_NAME = 'windows' ]; then
 	#Install custom requirements for Windows
 	echo "Windows Placeholder"
 	chocolatey upgrade chocolatey
-	choco upgarde all
+	choco upgrade all
 	choco install qt-sdk-windows-x64-mingw_opengl_seh
 	#
 	#
