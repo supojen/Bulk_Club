@@ -25,19 +25,7 @@ elif [ $TRAVIS_OS_NAME = 'windows' ]; then
 	#echo "Windows Placeholder"
 	dir
 	ls -lah
-	cd ../
-	ls -lah
-	cd ../
-	ls -lah
-	cd ../
-	ls -lah
-	cd ../
-	ls -lah
-	cd ../
-	ls -lah
-	cd ../
-	ls -lah
-	cd ../
+	cd /c/tools/qtcreator
 	ls -lah
 	chocolatey upgrade chocolatey
 	#choco upgrade all
