@@ -5,24 +5,24 @@ matrix:
     osx_image: xcode9.3
     language: cpp
     compiler: gcc
-  - name: OSX 10.12 (Clang)
-    os: osx
-    osx_image: xcode9.3
-    language: cpp
-    compiler: clang
   - name: OSX 10.13 (GCC)
     os: osx
     language: cpp
     compiler: gcc
-  - name: OSX 10.13 (Clang)
-    os: osx
-    language: cpp
-    compiler: clang
   - name: OSX 10.14 (GCC)
     os: osx
     osx_image: xcode11
     language: cpp
     compiler: gcc
+  - name: OSX 10.12 (Clang)
+    os: osx
+    osx_image: xcode9.3
+    language: cpp
+    compiler: clang
+  - name: OSX 10.13 (Clang)
+    os: osx
+    language: cpp
+    compiler: clang
   - name: OSX 10.14 (Clang)
     os: osx
     osx_image: xcode11
@@ -39,13 +39,6 @@ matrix:
        env:   
        - CXX=g++-8
        - CC=gcc-8
-  - name: "Xenial (Clang)"
-    os: linux
-    dist: xenial
-    language: cpp
-    env:
-    - CXX=clang++
-    - CC=clang
   - name: "Bionic (GCC)"
     os: linux
     dist: bionic
@@ -57,6 +50,13 @@ matrix:
        env:   
        - CXX=g++-8
        - CC=gcc-8
+  - name: "Xenial (Clang)"
+    os: linux
+    dist: xenial
+    language: cpp
+    env:
+    - CXX=clang++
+    - CC=clang
   - name: "Bionic (Clang)"
     os: linux
     dist: bionic
