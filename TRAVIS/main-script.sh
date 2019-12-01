@@ -23,7 +23,7 @@ elif [ $TRAVIS_OS_NAME = 'windows' ]; then
 	ls -lah
 	#nmake bulkClub.pro
 	qmake bulkClub.pro
-	mingw32-make bulkClub.pro
+	mingw32-make Bulk_Club.pro
 	#
 	#
 
