@@ -18,6 +18,8 @@ elif [ $TRAVIS_OS_NAME = 'windows' ]; then
 
 	#Install custom requirements for Windows
 	echo "Windows Placeholder"
+	qmake bulkClub.pro
+	make
 	#
 	#
 
