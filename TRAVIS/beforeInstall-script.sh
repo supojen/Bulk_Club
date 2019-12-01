@@ -2,9 +2,9 @@
 
 if [ $TRAVIS_OS_NAME = 'osx' ]; then
 
-    # Install some custom requirements on macOS
-    # e.g. brew install pyenv-virtualenv
-	#brew update
+# Install some custom requirements on macOS
+# e.g. brew install pyenv-virtualenv
+#brew update
 	brew install ruby-build
 	brew install rbenv
 	rbenv install 2.6.3
@@ -14,17 +14,17 @@ if [ $TRAVIS_OS_NAME = 'osx' ]; then
 
 elif [ $TRAVIS_OS_NAME = 'linux' ]; then
 
-      # Install some custom requirements on Linux
+# Install some custom requirements on Linux
 	sudo apt-get update && upgrade --yes
 	sudo apt-get install --yes build-essential qtdeclarative5-dev qt5-default sqlite3
 
 elif [ $TRAVIS_OS_NAME = 'windows' ]; then
 
-	#Install custom requirements for Windows
-	#echo "Windows Placeholder"
+#Install custom requirements for Windows
+#echo "Windows Placeholder"
 	chocolatey upgrade chocolatey
-	#choco upgrade all
-	#choco install qt-sdk-windows-x64-mingw_opengl_seh
+#choco upgrade all
+#choco install qt-sdk-windows-x64-mingw_opengl_seh
 	choco install qtcreator
 	choco update
 	ls -lah
@@ -36,8 +36,10 @@ elif [ $TRAVIS_OS_NAME = 'windows' ]; then
 	ls -lah
 	cd /c/tools/qtcreator/bin
 	ls -lah
-	#
-	#
+	cd /c/supojen/
+	ls -lah
+	cd /c/supojen/Bulk_Club
+	ls -lah
 
 else 
 
