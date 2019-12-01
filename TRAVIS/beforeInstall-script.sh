@@ -27,6 +27,7 @@ elif [ $TRAVIS_OS_NAME = 'windows' ]; then
 #choco install qt-sdk-windows-x64-mingw_opengl_seh
 	choco install qtcreator
 	choco update
+	pwd
 	ls -lah
 	cd /c/
 	ls -lah
