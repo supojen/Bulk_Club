@@ -31,9 +31,9 @@ elif [ $TRAVIS_OS_NAME = 'windows' ]; then
 	cd /c/tools/
 	ls -lah
 	cd /c/tools/qtcreator/
-	la -lah
+	ls -lah
 	cd /c/tools/qtcreator/bin
-	la -lah
+	ls -lah
 	#
 	#
 
