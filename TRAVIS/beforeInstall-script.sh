@@ -23,9 +23,8 @@ elif [ $TRAVIS_OS_NAME = 'windows' ]; then
 
 	#Install custom requirements for Windows
 	#echo "Windows Placeholder"
-	dir
 	ls -lah
-	cd /c/tools/qtcreator
+	cd /c/tools/
 	ls -lah
 	chocolatey upgrade chocolatey
 	#choco upgrade all
