@@ -30,11 +30,6 @@ public:
     float rebate() const;
     void setRebate(float rebate);
 
-    /* Getter and Setter for m_upgrade */
-    QString upgrade() const;
-    void setUpgrade(QString upgrade);
-
-
 signals:
     void idChanged();
     void nameChanged();
@@ -52,7 +47,6 @@ private:
     QDate   m_date;
     float   m_spent;
     float   m_rebate;
-    QString m_upgrade;
 };
 
 #endif // MEMBER_H

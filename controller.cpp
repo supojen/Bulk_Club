@@ -69,15 +69,14 @@ void Controller::createTable()
     // About creating the member table
     QString createMemberTable =
     "create table IF NOT EXISTS member(                            "
-    "Id              integer primary key,                          "
-    "Name            varchar(50) not null,                         "
-    "Type            varchar(50) not null,                         "
-    "Year            integer     not null,                         "
-    "Month           integer     not null,                         "
-    "Day             integer     not null,                         "
-    "Spent           real        not null,                         "
-    "Rebate          real        not null,                         "
-    "Membership      varchar(10) not null                          "
+    "id              integer primary key,                          "
+    "name            varchar(50) not null,                         "
+    "type            varchar(50) not null,                         "
+    "year            integer     not null,                         "
+    "month           integer     not null,                         "
+    "day             integer     not null,                         "
+    "spent           real        not null,                         "
+    "rebate          real        not null                          "
     ");                                                            ";
     if(!qry.exec(createMemberTable))
     {
@@ -160,22 +159,19 @@ void Controller::createTable()
  */
 void Controller::createMember(int id, QString name, QString type, QDate date, float spent, float rebate)
 {
-    QString upgrade = "N/A";   // initial upgrade status for members
-
     // Step 1
     // Creating an entry into database
     QSqlQuery qry;
     qry.prepare("insert into member   (          "
-                "id,                             "
+                "id,                         "
                 "name,                           "
                 "type,                           "
                 "year,                           "
                 "month,                          "
                 "day,                            "
                 "spent,                          "
-                "rebate,                         "
-                "Membership)                     "
-                "values(?,?,?,?,?,?,?,?,?);      "
+                "rebate)                         "
+                "values(?,?,?,?,?,?,?,?);        "
                 );
     qry.addBindValue(id);
     qry.addBindValue(name);
@@ -185,7 +181,6 @@ void Controller::createMember(int id, QString name, QString type, QDate date, fl
     qry.addBindValue(date.day());
     qry.addBindValue(spent);
     qry.addBindValue(rebate);
-    qry.addBindValue(upgrade);
 
     if(!qry.exec())
     {
@@ -202,7 +197,6 @@ void Controller::createMember(int id, QString name, QString type, QDate date, fl
     entry->setType(type);
     entry->setSpent(spent);
     entry->setRebate(rebate);
-    entry->setUpgrade(upgrade);
     this->m_members.append(entry);
 
 }
@@ -631,6 +625,23 @@ QSqlQueryModel *Controller::getMembersQueryModel()
 
     return model;
 }
+QSqlQueryModel *Controller::getMembersQueryModelSortedByName()
+{
+    QSqlQueryModel* model = new QSqlQueryModel();
+
+    QSqlQuery qry;
+    qry.prepare("select * from member ORDER BY name ASC;");
+    if(!qry.exec())
+    {
+        qDebug() <<"error Loading values to db" << endl;
+
+    }
+
+    model->setQuery(qry);
+
+    return model;
+}
+
 QSqlTableModel* Controller::getMembersExpiredAttheMonth(int year, int month)
 {
     QSqlTableModel* model = new QSqlTableModel();
@@ -763,24 +774,6 @@ QSqlQueryModel *Controller::getInventoryQueryModel()
 
     return model;
 }
-
-QSqlQueryModel* Controller::getMemberUpgrades()
-{
-    QSqlQueryModel* model = new QSqlQueryModel();
-
-    QSqlQuery qry;
-    qry.prepare("SELECT id, name, type, spent, rebate, membership FROM member ORDER BY id ASC;");
-    if(!qry.exec())
-    {
-        qDebug() <<"error Loading values to db" << endl;
-
-    }
-
-    model->setQuery(qry);
-
-    return model;
-}
-
 QSqlQueryModel *Controller::getCommoditiesQueryModelbyName(QString name)
 {
     QSqlQueryModel* model = new QSqlQueryModel();
@@ -1132,4 +1125,62 @@ void Controller::setComboDate(QString combo)
 void Controller::getComboDate(QString &combo)
 {
     combo = comboDate;
+}
+
+void Controller::deleteInventory(QString name)
+{
+    // Step 1
+    // Deleting entry from database
+    QSqlQuery qry;
+    qry.prepare("delete from inventory where item = ?;");
+    qry.addBindValue(name);
+    if(!qry.exec())
+    {
+        qDebug() <<"error deleting values to db" << endl;
+    }
+
+}
+void Controller::addInventory(QString name, double price)
+{
+    // Step 1
+    // Adding entry to database
+    QSqlQuery qry;
+    qry.prepare("INSERT INTO inventory (item,price) VALUES (?,?);");
+    qry.addBindValue(name);
+    qry.addBindValue(price);
+    if(!qry.exec())
+    {
+        qDebug() <<"error Adding values to db adding" << endl;
+    }
+}
+
+void Controller::addCustomer(QString name, int id,QString Type)
+{
+
+    QSqlQuery qry;
+    qry.prepare("INSERT INTO member (id,name,type,year,month,day,spent,rebate) VALUES (?,?,?,?,?,?,?,?);");
+    qry.addBindValue(id);
+    qry.addBindValue(name);
+    qry.addBindValue(Type);
+    qry.addBindValue(QDate::currentDate().year());
+    qry.addBindValue(QDate::currentDate().month());
+    qry.addBindValue(QDate::currentDate().day());
+    qry.addBindValue(0);
+    qry.addBindValue(0);
+    if(!qry.exec())
+    {
+        qDebug() <<"error Adding values to db adding" << endl;
+    }
+
+}
+
+void Controller::deleteCustomer(QString name)
+{
+    QSqlQuery qry;
+    qry.prepare("delete from member where name = ?;");
+    qry.addBindValue(name);
+    if(!qry.exec())
+    {
+        qDebug() <<"error deleting values to db" << endl;
+    }
 }

@@ -12,6 +12,7 @@
 #include <QKeyEvent>
 #include <QDate>
 #include <QInputDialog>
+#include <QScrollArea>
 #include "controller.h"
 
 
@@ -82,7 +83,23 @@ private slots:
     QString getFullMonth(QString month);
 
 
-    void on_viewCustomerUpgrades_clicked();
+    void on_AddInventory_clicked();
+
+    void on_TableAdminInventory_clicked(const QModelIndex &index);
+
+    void on_Delete_clicked();
+
+
+    void on_Adminsortmember_clicked();
+
+    void on_AdminDeleteCustomer_clicked();
+
+    void on_adminmembertable_clicked(const QModelIndex &index);
+
+    void on_AdminAddCustomer_clicked();
+
+
+    void on_Viewmembermanager_clicked();
 
 protected:
     void keyPressEvent(QKeyEvent* pe);

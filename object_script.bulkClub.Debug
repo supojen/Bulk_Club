@@ -1,0 +1,13 @@
+debug/admin.o
+debug/commodity.o
+debug/controller.o
+debug/main.o
+debug/mainwindow.o
+debug/member.o
+debug/record.o
+debug/moc_admin.o
+debug/moc_commodity.o
+debug/moc_controller.o
+debug/moc_mainwindow.o
+debug/moc_member.o
+debug/moc_record.o

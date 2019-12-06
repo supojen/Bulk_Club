@@ -64,13 +64,3 @@ void Member::setRebate(float rebate)
 {
     m_rebate = rebate;
 }
-
-QString Member::upgrade() const
-{
-    return m_upgrade;
-}
-
-void Member::setUpgrade(QString upgrade)
-{
-    m_upgrade = upgrade;
-}

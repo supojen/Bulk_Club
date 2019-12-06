@@ -10,10 +10,13 @@ MainWindow::MainWindow(Controller *controller, QWidget *parent)
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentWidget(ui->MAINWINDOW);
-    QPixmap pix("/Users/mohamedsoliman/Logo.png");
+    QPixmap pix("/Users/Adam/Desktop/CS1C/Sprint 3/Bulk_Club-master/Bulk_Club-master/Logo.png");
     int w = ui ->logo->width();
     int h = ui ->logo->height();
     ui->logo->setPixmap(pix.scaled(w,h,Qt::KeepAspectRatio));
+
+    ui->MAINWINDOW->setMinimumSize(800, 600);   // args are (width, height) in pixels
+    // This sets the minimum size (pixels) of the main window. It cannot be shrunk smaller than those values.
 
     QFile file(QDir::homePath() + "/storedDates.txt");
        if(!file.exists())
@@ -121,7 +124,9 @@ void MainWindow::changeToManager()
 
 void MainWindow::on_viewItems_clicked()
 {
+    showTables();
    ui->managerTable->setModel(m_controller->getCommoditiesQueryModel());
+   ui->managerTable->resizeColumnsToContents();
 }
 
 void MainWindow::on_loadSales_clicked()
@@ -171,6 +176,7 @@ void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
     ui->managerTable->setColumnHidden(3,true);
     ui->managerTable->setColumnHidden(4,true);
     ui->managerTable->show();
+    ui->managerTable->resizeColumnsToContents();
 
 }
 void MainWindow::showTables()
@@ -190,22 +196,26 @@ void MainWindow::on_comboBox_2_currentIndexChanged(const QString &arg1)
     {
       showTables();
       ui->managerTable->setModel(m_controller->getRevenueSortedById());
+      ui->managerTable->resizeColumnsToContents();
 
     }
     if(select == "Sort Members By REV")
     {
        showTables();
        ui->managerTable->setModel(m_controller->getRevenueSortedByRev());
+       ui->managerTable->resizeColumnsToContents();
     }
     if(select == "Sort item By Rev")
     {
         showTables();
         ui->managerTable->setModel(m_controller->SortByRevenueItems());
+        ui->managerTable->resizeColumnsToContents();
     }
     if(select == "Sort item By Name")
     {
         showTables();
         ui->managerTable->setModel(m_controller->SortByNameItems());
+        ui->managerTable->resizeColumnsToContents();
     }
 }
 
@@ -347,6 +357,7 @@ void MainWindow::on_SearchItembyname_clicked()
     showTables();
 
     ui->managerTable->setModel(m_controller->getCommoditiesQueryModelbyName(name));
+    ui->managerTable->resizeColumnsToContents();
 }
 
 void MainWindow::on_SearchCustomerByID_clicked()
@@ -361,6 +372,7 @@ void MainWindow::on_SearchCustomerByID_clicked()
     condition += QString::number(ID);
     showTables();
     ui->managerTable->setModel(m_controller->getRecordsQueryModelWithCondition(condition));
+    ui->managerTable->resizeColumnsToContents();
 
 
 
@@ -421,7 +433,7 @@ void MainWindow::on_FinalizePurchase_clicked()
 
         qry.exec("update member set spent = '"+price+"', rebate = '"+rebate+"' where name = '"+name+"'");
 
-        QMessageBox::information(this,"Purchase Complete", "Purchase Has Sucsessfully Been Completed by Member " + name);
+        QMessageBox::information(this,"Purchase Complete", "Purchase Has Successfully Been Completed by Member " + name);
 
         QDate date = QDate::currentDate();
         QString stringDate = date.toString();
@@ -483,6 +495,7 @@ void MainWindow::on_ViewMembersadmin_clicked()
 void MainWindow::on_adminviewmember_clicked()
 {
         ui->adminmembertable->setModel(m_controller->getMembersQueryModel());
+        ui->adminmembertable->resizeColumnsToContents();
 }
 
 void MainWindow::on_dateEdit_userDateChanged(const QDate &date)
@@ -603,8 +616,107 @@ QString MainWindow ::getFullMonth(QString month)
     // Ideally this would in a switch statement however that only functions properly with integer values or enum values.
 }
 
-
-void MainWindow::on_viewCustomerUpgrades_clicked()
+void MainWindow::on_AddInventory_clicked()
 {
-    ui->managerTable->setModel(m_controller->getMemberUpgrades());
+
+    QString name = QInputDialog::getText(this,"Add Item", "Enter the Item Name");
+    double price = QInputDialog::getDouble(this,"Price For Item", "Enter the Item price");
+    m_controller->addInventory(name,price);
+    ui->TableAdminInventory->setModel(m_controller->getInventoryQueryModel());
+}
+
+
+void MainWindow::on_TableAdminInventory_clicked(const QModelIndex &index)
+{
+
+    QString name;
+    QString price;
+
+
+    if(index.isValid())
+    {
+        QSqlQuery qry;
+        name = index.data().toString();
+
+        qry.prepare("Select * from inventory where item = '"+name+"'");
+
+        if (qry.exec())
+        {
+            while(qry.next())
+            {
+                price = qry.value(1).toString();
+                ui->Itemshow->setText(name);
+                ui->ItemPrice->setText(QString::number(price.toDouble(),'g',6));
+            }
+        }
+
+    }
+}
+
+void MainWindow::on_Delete_clicked()
+{
+    m_controller->deleteInventory(ui->Itemshow->text());
+    ui->TableAdminInventory->setModel(m_controller->getInventoryQueryModel());
+    ui->Itemshow->clear();
+    ui->ItemPrice->clear();
+}
+
+void MainWindow::on_Adminsortmember_clicked()
+{
+    ui->adminmembertable->setModel(m_controller->getMembersQueryModelSortedByName());
+}
+
+void MainWindow::on_AdminDeleteCustomer_clicked()
+{
+    m_controller->deleteCustomer(ui->Adminmembername->text());
+    ui->adminmembertable->setModel(m_controller->getMembersQueryModel());
+    ui->adminmembertable->resizeColumnsToContents();
+    ui->Adminmembername->clear();
+    ui->adminmemberID->clear();
+}
+
+void MainWindow::on_adminmembertable_clicked(const QModelIndex &index)
+{
+    QString name;
+    int id;
+
+
+    if(index.isValid())
+    {
+        QSqlQuery qry;
+        name = index.data().toString();
+
+        qry.prepare("Select * from member where name = '"+name+"'");
+
+        if (qry.exec())
+        {
+            while(qry.next())
+            {
+                id = qry.value(0).toInt();
+                ui->Adminmembername->setText(name);
+                ui->adminmemberID->setNum(id);
+            }
+        }
+
+    }
+}
+
+void MainWindow::on_AdminAddCustomer_clicked()
+{
+    QString name = QInputDialog::getText(this,"Add Member", "Enter the Member's Name");
+    int id = QInputDialog::getInt(this,"Add member", "Enter the Member's ID");
+    QString Type = QInputDialog::getText(this,"Add Member", "Enter the Member's Type");
+    m_controller->addCustomer(name,id,Type);
+    ui->adminmembertable->setModel(m_controller->getMembersQueryModel());
+    ui->adminmembertable->resizeColumnsToContents();
+}
+
+//
+
+
+void MainWindow::on_Viewmembermanager_clicked()
+{
+   ui->managerTable->setModel(m_controller->getRecordsQueryModel());
+   showTables();
+   ui->managerTable->resizeColumnsToContents();
 }

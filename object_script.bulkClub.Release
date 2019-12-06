@@ -1,0 +1,13 @@
+release/admin.o
+release/commodity.o
+release/controller.o
+release/main.o
+release/mainwindow.o
+release/member.o
+release/record.o
+release/moc_admin.o
+release/moc_commodity.o
+release/moc_controller.o
+release/moc_mainwindow.o
+release/moc_member.o
+release/moc_record.o

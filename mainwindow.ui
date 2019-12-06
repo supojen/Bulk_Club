@@ -482,12 +482,12 @@
          <rect>
           <x>530</x>
           <y>490</y>
-          <width>91</width>
+          <width>41</width>
           <height>51</height>
          </rect>
         </property>
         <property name="text">
-         <string>Menu :</string>
+         <string>Sorting:</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_11">
@@ -495,7 +495,7 @@
          <rect>
           <x>20</x>
           <y>-10</y>
-          <width>151</width>
+          <width>241</width>
           <height>51</height>
          </rect>
         </property>
@@ -516,7 +516,7 @@
         <property name="geometry">
          <rect>
           <x>660</x>
-          <y>40</y>
+          <y>50</y>
           <width>112</width>
           <height>121</height>
          </rect>
@@ -552,7 +552,7 @@ Name</string>
         </widget>
         <widget class="QPushButton" name="BackButton">
          <property name="text">
-          <string>Back Button</string>
+          <string>Logout</string>
          </property>
         </widget>
        </widget>
@@ -560,7 +560,7 @@ Name</string>
         <property name="geometry">
          <rect>
           <x>660</x>
-          <y>170</y>
+          <y>180</y>
           <width>112</width>
           <height>121</height>
          </rect>
@@ -572,19 +572,26 @@ By
 ID</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="viewCustomerUpgrades">
+       <widget class="QPushButton" name="Viewmembermanager">
         <property name="geometry">
          <rect>
           <x>660</x>
-          <y>300</y>
-          <width>112</width>
-          <height>121</height>
+          <y>311</y>
+          <width>111</width>
+          <height>131</height>
          </rect>
         </property>
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+          <strikeout>false</strikeout>
+         </font>
+        </property>
         <property name="text">
-         <string>View
-Customer
-Upgrades</string>
+         <string>View All
+Transactions</string>
         </property>
        </widget>
       </widget>
@@ -636,7 +643,7 @@ Upgrades</string>
          <rect>
           <x>45</x>
           <y>30</y>
-          <width>671</width>
+          <width>551</width>
           <height>371</height>
          </rect>
         </property>
@@ -644,9 +651,9 @@ Upgrades</string>
        <widget class="QPushButton" name="BacktoMAINADMIN">
         <property name="geometry">
          <rect>
-          <x>330</x>
-          <y>520</y>
-          <width>112</width>
+          <x>200</x>
+          <y>500</y>
+          <width>321</width>
           <height>32</height>
          </rect>
         </property>
@@ -654,20 +661,87 @@ Upgrades</string>
          <string>Back</string>
         </property>
        </widget>
+       <widget class="QSplitter" name="splitter_2">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>460</y>
+          <width>631</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <widget class="QPushButton" name="Adminsortmember">
+         <property name="text">
+          <string>Sort Name Alphabetically</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="AdminAddCustomer">
+         <property name="text">
+          <string>Add Member</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="AdminDeleteCustomer">
+         <property name="text">
+          <string>Delete Member from list</string>
+         </property>
+        </widget>
+       </widget>
        <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>70</y>
+          <width>151</width>
+          <height>241</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_8">
+         <item>
+          <widget class="QLabel" name="Adminmembername">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="adminmemberID">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QPushButton" name="adminviewmember">
         <property name="geometry">
          <rect>
           <x>40</x>
           <y>420</y>
-          <width>631</width>
-          <height>33</height>
+          <width>301</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>View All Members</string>
+        </property>
+       </widget>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>360</x>
+          <y>424</y>
+          <width>301</width>
+          <height>23</height>
          </rect>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QPushButton" name="adminviewmember">
+          <widget class="QLabel" name="ExpirationDate">
            <property name="text">
-            <string>View All Members</string>
+            <string>Expiration</string>
            </property>
           </widget>
          </item>
@@ -701,14 +775,14 @@ Upgrades</string>
          <item>
           <widget class="QPushButton" name="AddInventory">
            <property name="text">
-            <string>Add</string>
+            <string>Add Item</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="Delete">
            <property name="text">
-            <string>Delete</string>
+            <string>Delete Item from list</string>
            </property>
           </widget>
          </item>
@@ -735,6 +809,58 @@ Upgrades</string>
           <widget class="QPushButton" name="BackFromInventory">
            <property name="text">
             <string>Back</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>340</x>
+          <y>390</y>
+          <width>68</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_6">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Item:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Price:</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>440</x>
+          <y>390</y>
+          <width>151</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <widget class="QLabel" name="Itemshow">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="ItemPrice">
+           <property name="text">
+            <string/>
            </property>
           </widget>
          </item>
