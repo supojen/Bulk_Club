@@ -620,7 +620,8 @@ void MainWindow::on_AddInventory_clicked()
 {
 
     QString name = QInputDialog::getText(this,"Add Item", "Enter the Item Name");
-    double price = QInputDialog::getDouble(this,"Price For Item", "Enter the Item price");
+    double price = QInputDialog::getDouble(this,"Price For Item", "Enter the Item price", 0.00, 0.00, 999999.99, 2);    
+										// Default price is $0, min price is $0, max price is $999,999.99, max two decimal places
     m_controller->addInventory(name,price);
     ui->TableAdminInventory->setModel(m_controller->getInventoryQueryModel());
 }
