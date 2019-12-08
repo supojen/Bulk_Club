@@ -855,7 +855,7 @@ bool Controller::readRecordFile()
         int quantity = quantity_str.toInt();
         // Check if the date is already be loaded
 
-
+        //qDebug() << month << " " << day << " " << year;
         QString stringMonth;
               if (month == 01)
                   stringMonth = "January";
@@ -885,6 +885,8 @@ bool Controller::readRecordFile()
                   qDebug() << "No Valid Month" << endl;
 
               QString fullDate = stringMonth + ", " + QString::number(day) + ", " + QString::number(year);
+              qDebug() << fullDate << endl;
+
               setComboDate(fullDate);
 
         if(!date_is_alraedy_be_record)

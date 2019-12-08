@@ -10,7 +10,7 @@ MainWindow::MainWindow(Controller *controller, QWidget *parent)
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentWidget(ui->MAINWINDOW);
-    QPixmap pix("/Users/mohamedsoliman/Logo.png");
+    QPixmap pix("/Users/littlejimmyfirl/Desktop/bulkClub/Logo.png");
     int w = ui ->logo->width();
     int h = ui ->logo->height();
     ui->logo->setPixmap(pix.scaled(w,h,Qt::KeepAspectRatio));
@@ -131,8 +131,9 @@ void MainWindow::on_loadSales_clicked()
     QString comboDate;
         m_controller->readRecordFile();
         m_controller->getComboDate(comboDate);
-        qDebug() << comboDate;
 
+
+        qDebug() << comboDate;
         ui-> comboBox->addItem(comboDate);
         QFile file(QDir::homePath() + "/storedDates.txt");
         if(!file.exists())
@@ -145,7 +146,7 @@ void MainWindow::on_loadSales_clicked()
             QTextStream txtStream (&file);
 
             qDebug() << "~ Writing To File ~";
-
+            qDebug() << comboDate << endl;
             txtStream << comboDate << endl;
             file.close();
         }
@@ -278,7 +279,18 @@ void MainWindow::on_createMember_clicked()
     QString stringDate = date.toString();
     QString monthDate = stringDate.mid( 4, 3);
     QString dayDate = stringDate.mid(8,2);
-    QString dayYear = stringDate.mid(11,5);
+    QString dayYear;
+
+    if (dayDate.toInt() < 10)
+        {
+            dayYear = stringDate.mid(10,5);
+            qDebug() << "The Current Date is less than 10" << endl;
+        }
+    else
+        {
+            dayYear = stringDate.mid(11,5);
+            qDebug() << "The Current Date is greater than 10" << endl;
+        }
 
     qDebug() << dayYear;
     int intYear = dayYear.toInt() + 1;
@@ -288,6 +300,7 @@ void MainWindow::on_createMember_clicked()
     if (dayDate.toInt() < 10)
     {
         dayDate = "0" + dayDate;
+        dayDate = dayDate.mid(0,2);
     }
     qDebug() << dayDate << endl;
     qDebug() << year << endl;
@@ -370,11 +383,6 @@ void MainWindow::on_SearchCustomerByID_clicked()
     showTables();
     ui->managerTable->setModel(m_controller->getRecordsQueryModelWithCondition(condition));
     ui->managerTable->resizeColumnsToContents();
-
-
-
-
-
 }
 
 void MainWindow::on_adminTable_clicked(const QModelIndex &index)
@@ -426,37 +434,59 @@ void MainWindow::on_FinalizePurchase_clicked()
         memberID = ui->memberId->text();
         item = ui->nameShow->text();
 
+        if(ui->priceShow->text() != "")
+        {
         rebate = QString::number(price.toDouble() * 0.02);
 
         qry.exec("update member set spent = '"+price+"', rebate = '"+rebate+"' where name = '"+name+"'");
 
         QMessageBox::information(this,"Purchase Complete", "Purchase Has Successfully Been Completed by Member " + name);
 
+        QString dayYear;
         QDate date = QDate::currentDate();
         QString stringDate = date.toString();
         QString monthDate = stringDate.mid( 4, 3);
         QString dayDate = stringDate.mid(8,2);
-        QString dayYear = stringDate.mid(11,5);
+
+        if (dayDate.toInt() < 10)
+            {
+                dayYear = stringDate.mid(10,5);
+                qDebug() << "The Current Date is less than 10" << endl;
+            }
+        else
+            {
+                dayYear = stringDate.mid(11,5);
+                qDebug() << "The Current Date is greater than 10" << endl;
+            }
 
         int intYear = dayYear.toInt();
         year = QString::number(intYear);
+        qDebug() << date << endl;
+
+        qDebug() << monthDate << endl;
+        qDebug() << year << endl;
+        qDebug() << stringDate << endl;
 
         month = getMonth(monthDate);
         if (dayDate.toInt() < 10)
         {
             dayDate = "0" + dayDate;
+            dayDate = dayDate.mid(0,2);
         }
 
         QString finalDate = month + '/' + dayDate + '/' + year;
 
-        savetoNewFile(finalDate, memberID,item, price, "1");
+            savetoNewFile(finalDate, memberID,item, price, "1");
 
-        QString fullMonth = getFullMonth(month);
-        QString fullDate = fullMonth + ", " + dayDate +", "+ year;
-        qDebug() << fullDate;
+            QString fullMonth = getFullMonth(month);
+            QString fullDate = fullMonth + ", " + dayDate +", "+ year;
+            qDebug() << fullDate;
 
 
-        changeToAdmin();
+            changeToAdmin();
+        }
+        else
+            QMessageBox::warning(this, "Purchase Failure", "You Must Select an Item to Purchase Before Continuing");
 
 
 }
@@ -536,7 +566,18 @@ void MainWindow::savetoNewFile(QString date, QString ID, QString item, QString p
     QString stringDate = dates.toString();
     QString monthDate = stringDate.mid( 4, 3);
     QString dayDate = stringDate.mid(8,2);
-    QString dayYear = stringDate.mid(11,5);
+    QString dayYear;
+
+    if (dayDate.toInt() < 10)
+        {
+            dayYear = stringDate.mid(10,5);
+            qDebug() << "The Current Date is less than 10" << endl;
+        }
+    else
+        {
+            dayYear = stringDate.mid(11,5);
+            qDebug() << "The Current Date is greater than 10" << endl;
+        }
 
     int intYear = dayYear.toInt();
     year = QString::number(intYear);
@@ -545,6 +586,7 @@ void MainWindow::savetoNewFile(QString date, QString ID, QString item, QString p
     if (dayDate.toInt() < 10)
     {
         dayDate = "0" + dayDate;
+        dayDate = dayDate.mid(0,2);
     }
 
     QString finalDate = month + dayDate + year;
@@ -716,4 +758,73 @@ void MainWindow::on_Viewmembermanager_clicked()
    ui->managerTable->setModel(m_controller->getRecordsQueryModel());
    showTables();
    ui->managerTable->resizeColumnsToContents();
+}
+
+void MainWindow::on_managerTable_clicked(const QModelIndex &index)
+{
+ /* The on_managerTable_clicked function interacts with the manager table model
+  * When the user clicks on one of the names of the member's displayed in the table
+  * it gathers information about that member; member's ID, member's Name, how much
+  * the member has spent and what type of member they are.
+  *
+  * This information is then passed into another function called checkUpgrade, which will
+  * determine if the member's should upgrade from their regular status, downgrade from
+  * their exectuive status, remain an executive, or lastly remain a regular member.
+  *
+  * This is determined by taking their total spent and multiplying it by 0.02
+  * (2% is the rebate amount for executive members.) If the regular member's
+  * potential rebate is greater than the cost of the membership upgrade, $55. They
+  * are then prompted with a recommendadton, if it is not beneficial they will not
+  * bbe prompted to upgrade. The same applies with the exectuve members, however if their rebate
+  * is less than the cost of the upgrade, they are then prompted to downgrade their membership.
+  */
+    QString name;
+    QString memberId;
+    QString rank;
+
+    if(index.isValid())
+    {
+        QSqlQuery qry;
+        name = index.data().toString();
+        qry.prepare("Select * from member where name = '"+name+"'");
+
+        if(qry.exec()){
+            while(qry.next())
+            {
+                double spent = qry.value(6).toDouble();
+                memberId = qry.value(0).toString();
+                rank = qry.value(2).toString();
+
+                checkUpgrade(spent, memberId, rank);
+
+            }
+        }
+
+
+    }
+}
+
+bool MainWindow::checkUpgrade(double spent, QString ID, QString rank)
+{
+    double rebate = spent * 0.02;
+    if (rank == "Regular" && rebate >= 55)
+    {
+        QMessageBox::information(this, "Member Status", "Upgrade reccomendation has been sent to the Regular Member #" + ID);
+        return true;
+    }
+    else if (rank == "Regular" && rebate < 55)
+    {
+        QMessageBox::information(this, "Member Status", "Upgrade not reccomended for Member #" + ID);
+        return false;
+    }
+    else if (rank == "Executive" && rebate >= 55)
+    {
+        QMessageBox::information(this, "Member Status", "Downgrade not reccomended for Member #" + ID);
+        return true;
+    }
+    else
+    {
+        QMessageBox::information(this, "Member Status", "Downgrade reccomendation has been sent to the Executive Member #" + ID);
+        return false;
+    }
 }

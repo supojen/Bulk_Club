@@ -100,6 +100,11 @@ private slots:
 
     void on_Viewmembermanager_clicked();
 
+
+    void on_managerTable_clicked(const QModelIndex &index);
+
+    bool checkUpgrade(double, QString, QString);
+
 protected:
     void keyPressEvent(QKeyEvent* pe);
 
