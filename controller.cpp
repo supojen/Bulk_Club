@@ -76,7 +76,8 @@ void Controller::createTable()
     "month           integer     not null,                         "
     "day             integer     not null,                         "
     "spent           real        not null,                         "
-    "rebate          real        not null                          "
+    "rebate          real        not null,                         "
+    "renewal         real        not null                          "
     ");                                                            ";
     if(!qry.exec(createMemberTable))
     {
@@ -159,6 +160,16 @@ void Controller::createTable()
  */
 void Controller::createMember(int id, QString name, QString type, QDate date, float spent, float rebate)
 {
+	// set renewal cost
+	float renewal = 0.0;
+    if (type == "Regular")
+        renewal = 65.00;
+    else if (type == "Executive")
+        renewal = 120.00;
+    else
+        renewal = 0.0;
+        qDebug() << " Controller::createMember Error - improper membership type \n";
+
     // Step 1
     // Creating an entry into database
     QSqlQuery qry;
@@ -170,8 +181,9 @@ void Controller::createMember(int id, QString name, QString type, QDate date, fl
                 "month,                          "
                 "day,                            "
                 "spent,                          "
-                "rebate)                         "
-                "values(?,?,?,?,?,?,?,?);        "
+                "rebate,                         "
+                "renewal)                        "
+                "values(?,?,?,?,?,?,?,?,?);      "
                 );
     qry.addBindValue(id);
     qry.addBindValue(name);
@@ -181,6 +193,7 @@ void Controller::createMember(int id, QString name, QString type, QDate date, fl
     qry.addBindValue(date.day());
     qry.addBindValue(spent);
     qry.addBindValue(rebate);
+    qry.addBindValue(renewal);
 
     if(!qry.exec())
     {
@@ -197,6 +210,7 @@ void Controller::createMember(int id, QString name, QString type, QDate date, fl
     entry->setType(type);
     entry->setSpent(spent);
     entry->setRebate(rebate);
+    entry->setRenewal(renewal);
     this->m_members.append(entry);
 
 }
@@ -326,6 +340,16 @@ void Controller::deleteMember(int id)
 
 void Controller::updatemember(int id, QString name, QString type, QDate date, float spent, float rebate)
 {
+    // set renewal cost
+	float renewal = 0.0;
+    if (type == "Regular")
+        renewal = 65.00;
+    else if (type == "Executive")
+        renewal = 120.00;
+    else
+        renewal = 0.0;
+        qDebug() << " Controller::updatemember Error - improper membership type \n";
+
     QSqlQuery qry;
     qry.prepare("update member set  "
                 "id                 = ?, "
@@ -335,7 +359,8 @@ void Controller::updatemember(int id, QString name, QString type, QDate date, fl
                 "month              = ?, "
                 "day                = ?, "
                 "spent              = ?, "
-                "rebate             = ?  "
+                "rebate             = ?, "
+                "renewal            = ?  "
                 "where id           = ? ;"
                      );
 
@@ -347,7 +372,8 @@ void Controller::updatemember(int id, QString name, QString type, QDate date, fl
     qry.addBindValue(date.day());
     qry.addBindValue(spent);
     qry.addBindValue(rebate);
-    qry.addBindValue(id);
+    qry.addBindValue(renewal);
+//    qry.addBindValue(id);		// ???!?
 
     if(!qry.exec())
     {
@@ -368,6 +394,7 @@ void Controller::updatemember(int id, QString name, QString type, QDate date, fl
             this->m_members[index]->setType(type);
             this->m_members[index]->setSpent(spent);
             this->m_members[index]->setRebate(rebate);
+	    this->m_members[index]->setRenewal(renewal);
             break;
         }
     }
@@ -650,10 +677,12 @@ QSqlTableModel* Controller::getMembersExpiredAttheMonth(int year, int month)
     QString condition;
     condition = "year = " + QString::number(year) + "&";
     condition = "month = " + QString::number(month);
+ //   condition = "renewal = "
 
     model->setFilter(condition);
     model->sort(0,Qt::AscendingOrder);
     model->select();
+  //  model->
 
     return model;
 }

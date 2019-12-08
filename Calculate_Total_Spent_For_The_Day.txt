@@ -1,0 +1,47 @@
+//Modify the void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1) function 
+
+void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
+{
+    QString date = ui->comboBox->currentText();
+    QStringList str_split = date.split(',');
+    int day = str_split[1].toInt();
+
+    QString condition = "day==";
+    condition += QString::number(day);
+
+    ui->managerTable->setModel(
+    m_controller->getRecordsQueryModelWithCondition(condition));
+    ui->managerTable->setColumnHidden(0,true);
+    ui->managerTable->setColumnHidden(2,true);
+    ui->managerTable->setColumnHidden(3,true);
+    ui->managerTable->setColumnHidden(4,true);
+    ui->managerTable->show();
+    ui->managerTable->resizeColumnsToContents();
+
+    // The purpose for this part is finding the total spent for the day
+    // total_spent varaible hold the total spent
+    //---------------------------------------------------------------------
+    auto commodities = m_controller->getCommodity();
+    auto model = m_controller->getRecordsQueryModelWithCondition(condition);
+    float total_spent = 0;
+    for(int index = 0; index < model->rowCount();index++)
+    {
+        int quantity = model->record(index).value("quantity").toInt();
+        QString item = model->record(index).value("item").toString();
+        float spent = 0;
+
+        for(int com_iter = 0; com_iter < commodities.count(); com_iter++)
+        {
+            if(item == commodities[com_iter]->item())
+            {
+                spent = commodities[com_iter]->price();
+                break;
+            }
+        }
+        spent *= quantity;
+        total_spent += spent;
+    }
+    QMessageBox::information(this,"Total Spent", "Total spent for the day is " + QString::number(total_spent));
+    //---------------------------------------------------------------------
+}
+    

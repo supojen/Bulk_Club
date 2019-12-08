@@ -334,7 +334,7 @@ public:
         label_4->setGeometry(QRect(530, 490, 91, 51));
         label_11 = new QLabel(managerLogin);
         label_11->setObjectName(QString::fromUtf8("label_11"));
-        label_11->setGeometry(QRect(20, -10, 241, 51));
+        label_11->setGeometry(QRect(20, -10, 151, 51));
         QFont font1;
         font1.setPointSize(18);
         font1.setBold(true);
@@ -534,7 +534,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(0);
+        stackedWidget->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -588,7 +588,7 @@ public:
 "Name", nullptr));
         loadSales->setText(QCoreApplication::translate("MainWindow", "Load Daily Sales Report", nullptr));
         LoadMemberInfo->setText(QCoreApplication::translate("MainWindow", "Load Member Info", nullptr));
-        BackButton->setText(QCoreApplication::translate("MainWindow", "Logout", nullptr));
+        BackButton->setText(QCoreApplication::translate("MainWindow", "Back Button", nullptr));
         SearchCustomerByID->setText(QCoreApplication::translate("MainWindow", "Search\n"
 "Customer\n"
 "By\n"
@@ -601,14 +601,14 @@ public:
         LogoutfromAdmin->setText(QCoreApplication::translate("MainWindow", "Log Out", nullptr));
         BacktoMAINADMIN->setText(QCoreApplication::translate("MainWindow", "Back", nullptr));
         Adminsortmember->setText(QCoreApplication::translate("MainWindow", "Sort Name Alphabetically", nullptr));
-        AdminAddCustomer->setText(QCoreApplication::translate("MainWindow", "Add Member", nullptr));
-        AdminDeleteCustomer->setText(QCoreApplication::translate("MainWindow", "Delete Member from list", nullptr));
+        AdminAddCustomer->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
+        AdminDeleteCustomer->setText(QCoreApplication::translate("MainWindow", "Delete", nullptr));
         Adminmembername->setText(QString());
         adminmemberID->setText(QString());
         adminviewmember->setText(QCoreApplication::translate("MainWindow", "View All Members", nullptr));
         ExpirationDate->setText(QCoreApplication::translate("MainWindow", "Expiration", nullptr));
-        AddInventory->setText(QCoreApplication::translate("MainWindow", "Add Item", nullptr));
-        Delete->setText(QCoreApplication::translate("MainWindow", "Delete Item from list", nullptr));
+        AddInventory->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
+        Delete->setText(QCoreApplication::translate("MainWindow", "Delete", nullptr));
         ViewInventory_2->setText(QCoreApplication::translate("MainWindow", "View Inventory", nullptr));
         BackFromInventory->setText(QCoreApplication::translate("MainWindow", "Back", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "Item:", nullptr));

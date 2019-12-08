@@ -505,6 +505,7 @@ void MainWindow::on_adminviewmember_clicked()
 
 void MainWindow::on_dateEdit_userDateChanged(const QDate &date)
 {
+    // Get a list of expired customers based on the select date and display it as a table
     int month = date.month();
     qDebug() << month;
     int year = date.year();

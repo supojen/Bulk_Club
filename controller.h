@@ -136,21 +136,20 @@ public:
     // This function get the list of the infos, but if you change the data you get here
     // it will not change the database
     //==========================================================================================
-    QList<Commodity*> getCommodity();   // returns a pointer to commodities
-    QList<Admin*>     getAdmins();      // returns a pointer to admins
-    QList<Record*>    getRecords();     // returns a pointer to sales records
-    QList<Member*>    getMembers();     // returns a pointer to members
-    QMap<QString,float> getCommodityPriceList();    // returns a list of prices
+    QList<Commodity*> getCommodity();
+    QList<Admin*>     getAdmins();
+    QList<Record*>    getRecords();
+    QList<Member*>    getMembers();
+    QMap<QString,float> getCommodityPriceList();
 
-    // GUI elements. All function call results are displayed in a tableview
-    QSqlQueryModel* getMembersQueryModel();     // returns the list of members
-    QSqlQueryModel* getRecordsQueryModel();     // returns the record of sales
-    QSqlQueryModel* getCommoditiesQueryModel(); // returns the list of commodities
-    QSqlQueryModel* getRevenueSortedById();     // returns the list of member revenue sorted by member ID (asc. order)
-    QSqlQueryModel* getRevenueSortedByRev();    // returns the list of member revenue sorted by revenue (asc. order)
-    QSqlQueryModel* SortByRevenueItems();       // returns the list of commodities sorted by revenue (asc. order)
-    QSqlQueryModel* SortByNameItems();          // returns the list of commodities sorted by item name (asc. order)
-    QSqlQueryModel *getInventoryQueryModel();   // returns the inventory list
+    QSqlQueryModel* getMembersQueryModel();
+    QSqlQueryModel* getRecordsQueryModel();
+    QSqlQueryModel* getCommoditiesQueryModel();
+    QSqlQueryModel* getRevenueSortedById();
+    QSqlQueryModel* getRevenueSortedByRev();
+    QSqlQueryModel*SortByRevenueItems();
+    QSqlQueryModel*SortByNameItems();
+    QSqlQueryModel *getInventoryQueryModel();
 
 
     QSqlTableModel* getMembersQueryModelWithCondition(QString condition);
@@ -158,19 +157,18 @@ public:
     QSqlTableModel* getCommoditiesQueryModelWithCondition(QString condition);
     QSqlTableModel* getMembersExpiredAttheMonth(int year,int month);
 
-    bool readRecordFile();      // Reads a daily sales record from a file into the database. Returns true if the operation is successful
-    bool readMemberFile();      // Reads a list of member information from a file into the database. Returns true if the operation is successful.
+    bool readRecordFile();
+    bool readMemberFile();
 
-    float calcMemberSpent(int member_id);   // Calculates total purchases for a member. Returns the sum
-    float calcMemberRebate(int member_id);  // Calculates the membership rebate for a customer. Returns the rebate.
+    float calcMemberSpent(int member_id);
+    float calcMemberRebate(int member_id);
 
-    Commodity* getCommodityByItemName(QString item);        // Searches the commodity table for a given item name. If the item is found, a pointer to that item is returned.
-                                                            // if it is not found, a null pointer is returned.
-    QSqlQueryModel* getCommoditiesQueryModelbyName(QString name);   // Searches the commodity table for a given item name. If it is found, the results are displayed as tableview
-    Member* getMemberById(int id);      // Searches the member table for a member ID. Returns a pointer to that member if found. If not found, returns a null pointer
+    Commodity* getCommodityByItemName(QString item);
+    QSqlQueryModel* getCommoditiesQueryModelbyName(QString name);
+    Member* getMemberById(int id);
 
-    void setComboDate(QString combo);       // Sets the combo date (MMM/DD/YYYY) to the passed parameter
-    void getComboDate (QString &combo);     // Returns the combo date (MMM/DD/YYYY)
+    void setComboDate(QString combo);
+    void getComboDate (QString &combo);
     void deleteInventory(QString item);
     void addInventory (QString name,double price);
     QSqlQueryModel *getMembersQueryModelSortedByName();

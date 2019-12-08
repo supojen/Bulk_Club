@@ -807,8 +807,6 @@ debug/moc_mainwindow.cpp: mainwindow.h \
 		C:/Qt/5.13.0/mingw73_64/include/QtGui/qpen.h \
 		C:/Qt/5.13.0/mingw73_64/include/QtGui/qtextoption.h \
 		C:/Qt/5.13.0/mingw73_64/include/QtWidgets/qdialog.h \
-		C:/Qt/5.13.0/mingw73_64/include/QtWidgets/QScrollArea \
-		C:/Qt/5.13.0/mingw73_64/include/QtWidgets/qscrollarea.h \
 		controller.h \
 		C:/Qt/5.13.0/mingw73_64/include/QtCore/QString \
 		C:/Qt/5.13.0/mingw73_64/include/QtGui/QList \
@@ -1637,8 +1635,6 @@ debug/main.o: main.cpp mainwindow.h \
 		C:/Qt/5.13.0/mingw73_64/include/QtGui/qpen.h \
 		C:/Qt/5.13.0/mingw73_64/include/QtGui/qtextoption.h \
 		C:/Qt/5.13.0/mingw73_64/include/QtWidgets/qdialog.h \
-		C:/Qt/5.13.0/mingw73_64/include/QtWidgets/QScrollArea \
-		C:/Qt/5.13.0/mingw73_64/include/QtWidgets/qscrollarea.h \
 		controller.h \
 		C:/Qt/5.13.0/mingw73_64/include/QtCore/QString \
 		C:/Qt/5.13.0/mingw73_64/include/QtGui/QList \
@@ -1936,8 +1932,6 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		C:/Qt/5.13.0/mingw73_64/include/QtGui/qpen.h \
 		C:/Qt/5.13.0/mingw73_64/include/QtGui/qtextoption.h \
 		C:/Qt/5.13.0/mingw73_64/include/QtWidgets/qdialog.h \
-		C:/Qt/5.13.0/mingw73_64/include/QtWidgets/QScrollArea \
-		C:/Qt/5.13.0/mingw73_64/include/QtWidgets/qscrollarea.h \
 		controller.h \
 		C:/Qt/5.13.0/mingw73_64/include/QtCore/QString \
 		C:/Qt/5.13.0/mingw73_64/include/QtGui/QList \

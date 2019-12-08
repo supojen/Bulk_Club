@@ -12,7 +12,6 @@
 #include <QKeyEvent>
 #include <QDate>
 #include <QInputDialog>
-#include <QScrollArea>
 #include "controller.h"
 
 
