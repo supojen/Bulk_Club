@@ -156,6 +156,46 @@ void MainWindow::on_loadSales_clicked()
          * the combobox does not keep the dynamically added dates. Therefore the dates are saved, and loaded
          * into the combobox when the application is started up.
          */
+        QFile file2(QDir::homePath() + "/warehouse shoppers.txt");
+        if(!file.exists())
+        {
+            qDebug() << file2.fileName() << " does not exist";
+        }
+        QString name;
+        QString memberID;
+        QString type;
+        QString fullDate;
+        QString month;
+        QString day;
+        QString year;
+        QSqlQuery qry;
+        if(file2.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            QTextStream stream2(&file2);
+               while (!stream2.atEnd())
+               {
+                    name = stream2.readLine();
+                    qDebug() << name << endl;
+                    memberID = stream2.readLine();
+                    type = stream2.readLine();
+                    fullDate = stream2.readLine();
+                    month = fullDate.mid(0,2);
+                    qDebug() << month << endl;
+                    day = fullDate.mid(3,2);
+                    qDebug() << day << endl;
+                    year = fullDate.mid(6,4);
+                    qDebug() << year << endl;
+                    float spent =m_controller->calcMemberSpent(memberID.toInt());
+                    qDebug() << spent << endl;
+
+                    qry.exec("update member set id = '"+memberID+"', name= '"+name+"', year = '"+year+"',"
+                             " month  = '"+month+"', day = '"+day+"',spent = '"+QString::number(spent)+"' where id = '"+memberID+"'");
+               }
+
+        }
+        file2.close();
+
+
 }
 
 void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
