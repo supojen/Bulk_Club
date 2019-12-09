@@ -30,6 +30,8 @@ public:
 
     int page = 0;
 
+public slots:
+       QString generateMemberID();
 private slots:
 
 
@@ -44,7 +46,7 @@ private slots:
 
     void on_comboBox_2_currentIndexChanged(const QString &arg1);
     void showTables();
-    QString generateMemberID();
+
     QString getMonth(QString month);
     void on_createMember_clicked();
     void on_LoadMemberInfo_clicked();
@@ -104,6 +106,11 @@ private slots:
     void on_managerTable_clicked(const QModelIndex &index);
 
     bool checkUpgrade(double, QString, QString);
+
+    void on_monthBox_currentIndexChanged(const QString &arg1);
+
+
+    void on_managerMonthBox_currentIndexChanged(const QString &arg1);
 
 protected:
     void keyPressEvent(QKeyEvent* pe);

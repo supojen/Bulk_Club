@@ -16,6 +16,7 @@
 #include "admin.h"
 
 
+
 class Controller : public QObject
 {
     Q_OBJECT
@@ -136,20 +137,21 @@ public:
     // This function get the list of the infos, but if you change the data you get here
     // it will not change the database
     //==========================================================================================
-    QList<Commodity*> getCommodity();
-    QList<Admin*>     getAdmins();
-    QList<Record*>    getRecords();
-    QList<Member*>    getMembers();
-    QMap<QString,float> getCommodityPriceList();
+    QList<Commodity*> getCommodity();   // returns a pointer to commodities
+     QList<Admin*>     getAdmins();      // returns a pointer to admins
+     QList<Record*>    getRecords();     // returns a pointer to sales records
+     QList<Member*>    getMembers();     // returns a pointer to members
+     QMap<QString,float> getCommodityPriceList();    // returns a list of prices
 
-    QSqlQueryModel* getMembersQueryModel();
-    QSqlQueryModel* getRecordsQueryModel();
-    QSqlQueryModel* getCommoditiesQueryModel();
-    QSqlQueryModel* getRevenueSortedById();
-    QSqlQueryModel* getRevenueSortedByRev();
-    QSqlQueryModel*SortByRevenueItems();
-    QSqlQueryModel*SortByNameItems();
-    QSqlQueryModel *getInventoryQueryModel();
+     // GUI elements. All function call results are displayed in a tableview
+     QSqlQueryModel* getMembersQueryModel();     // returns the list of members
+     QSqlQueryModel* getRecordsQueryModel();     // returns the record of sales
+     QSqlQueryModel* getCommoditiesQueryModel(); // returns the list of commodities
+     QSqlQueryModel* getRevenueSortedById();     // returns the list of member revenue sorted by member ID (asc. order)
+     QSqlQueryModel* getRevenueSortedByRev();    // returns the list of member revenue sorted by revenue (asc. order)
+     QSqlQueryModel* SortByRevenueItems();       // returns the list of commodities sorted by revenue (asc. order)
+     QSqlQueryModel* SortByNameItems();          // returns the list of commodities sorted by item name (asc. order)
+     QSqlQueryModel *getInventoryQueryModel();   // returns the inventory list
 
 
     QSqlTableModel* getMembersQueryModelWithCondition(QString condition);

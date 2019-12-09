@@ -29,6 +29,9 @@ public:
     /* Getter and Setter for m_rebate */
     float rebate() const;
     void setRebate(float rebate);
+    /* Getter and Setter for m_renewal */
+     float renewal() const;
+     void setRenewal(float renewal);
 
 signals:
     void idChanged();
@@ -47,6 +50,7 @@ private:
     QDate   m_date;
     float   m_spent;
     float   m_rebate;
+    float   m_renewal;
 };
 
 #endif // MEMBER_H

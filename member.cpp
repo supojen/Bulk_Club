@@ -64,3 +64,12 @@ void Member::setRebate(float rebate)
 {
     m_rebate = rebate;
 }
+/* Getter and Setter for m_renewal */
+ float Member::renewal() const
+ {
+     return m_renewal;
+ }
+ void Member::setRenewal(float renewal)
+ {
+     m_renewal = renewal;
+ }

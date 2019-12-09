@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="MAINWINDOW">
        <widget class="QGroupBox" name="groupBox">
@@ -401,7 +401,7 @@
          <rect>
           <x>12</x>
           <y>42</y>
-          <width>641</width>
+          <width>491</width>
           <height>441</height>
          </rect>
         </property>
@@ -494,7 +494,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>-10</y>
+          <y>-20</y>
           <width>151</width>
           <height>51</height>
          </rect>
@@ -515,17 +515,14 @@
        <widget class="QPushButton" name="SearchItembyname">
         <property name="geometry">
          <rect>
-          <x>660</x>
-          <y>50</y>
-          <width>112</width>
-          <height>121</height>
+          <x>530</x>
+          <y>450</y>
+          <width>251</width>
+          <height>31</height>
          </rect>
         </property>
         <property name="text">
-         <string>Search 
-item
-By 
-Name</string>
+         <string>Search Item By Name</string>
         </property>
        </widget>
        <widget class="QSplitter" name="splitter">
@@ -559,26 +556,23 @@ Name</string>
        <widget class="QPushButton" name="SearchCustomerByID">
         <property name="geometry">
          <rect>
-          <x>660</x>
-          <y>180</y>
-          <width>112</width>
-          <height>121</height>
+          <x>530</x>
+          <y>420</y>
+          <width>251</width>
+          <height>31</height>
          </rect>
         </property>
         <property name="text">
-         <string>Search
-Customer
-By
-ID</string>
+         <string>Search Customer By ID</string>
         </property>
        </widget>
        <widget class="QPushButton" name="Viewmembermanager">
         <property name="geometry">
          <rect>
-          <x>660</x>
-          <y>311</y>
-          <width>111</width>
-          <height>131</height>
+          <x>530</x>
+          <y>390</y>
+          <width>251</width>
+          <height>31</height>
          </rect>
         </property>
         <property name="font">
@@ -590,14 +584,13 @@ ID</string>
          </font>
         </property>
         <property name="text">
-         <string>View All
-Transactions</string>
+         <string>View All Transactions</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_16">
         <property name="geometry">
          <rect>
-          <x>290</x>
+          <x>20</x>
           <y>20</y>
           <width>381</width>
           <height>16</height>
@@ -607,47 +600,303 @@ Transactions</string>
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Click on Member's Name to View Reccomendation Status&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-      </widget>
-      <widget class="QWidget" name="TransitionalAdminPage">
-       <widget class="QWidget" name="layoutWidget">
+       <widget class="QLabel" name="label_26">
         <property name="geometry">
          <rect>
-          <x>230</x>
-          <y>50</y>
-          <width>321</width>
-          <height>441</height>
+          <x>520</x>
+          <y>70</y>
+          <width>261</width>
+          <height>31</height>
          </rect>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QPushButton" name="ViewMembersadmin">
-           <property name="text">
-            <string>View Members</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="ViewInventory">
-           <property name="text">
-            <string>View Inventory</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="ValidateSoftware">
-           <property name="text">
-            <string>Validate Software</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="LogoutfromAdmin">
-           <property name="text">
-            <string>Log Out</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;View Expiring Memberships by Month:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="monthBox">
+        <property name="geometry">
+         <rect>
+          <x>520</x>
+          <y>100</y>
+          <width>221</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>Months</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>January</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>February</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>March</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>April</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>May</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>June</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>July</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>August</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>September</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>October</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>November</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>December</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLabel" name="label_30">
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>140</y>
+          <width>181</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; text-decoration: underline;&quot;&gt;Total Profit For The Day:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="totalSalesLabel">
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>170</y>
+          <width>161</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_31">
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>200</y>
+          <width>261</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; text-decoration: underline;&quot;&gt;Total Unique Customers:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="totalCustomers">
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>230</y>
+          <width>161</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_32">
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>260</y>
+          <width>261</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; text-decoration: underline;&quot;&gt;Total Executive Customers:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_33">
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>330</y>
+          <width>261</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; text-decoration: underline;&quot;&gt;Total Regular Customers:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="totalExecutiveCustomers">
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>290</y>
+          <width>161</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="totalRegularCustomers">
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>360</y>
+          <width>161</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="TransitionalAdminPage">
+       <widget class="QPushButton" name="LogoutfromAdmin">
+        <property name="geometry">
+         <rect>
+          <x>600</x>
+          <y>550</y>
+          <width>171</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Log Out</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="ValidateSoftware">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>550</y>
+          <width>211</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Validate Software</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="ViewInventory">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>350</y>
+          <width>211</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>View &amp; Edit Inventory</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_17">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>370</y>
+          <width>541</width>
+          <height>181</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:600; text-decoration: underline;&quot;&gt;Validate Software&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;The Validate Software page allows admin's to create a new member &lt;/p&gt;&lt;p align=&quot;center&quot;&gt;with a randomly generated Member ID. In addition to being able to&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;make a one time purchase for that new member. In an effort to &lt;/p&gt;&lt;p align=&quot;center&quot;&gt;validate the software is working correctly with the Database.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="ViewMembersadmin">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>170</y>
+          <width>211</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>View &amp; Edit Members</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_18">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>200</y>
+          <width>541</width>
+          <height>141</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:600; text-decoration: underline;&quot;&gt;View &amp;amp; Edit Inventory&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;The View &amp;amp; Edit Inventory Menu allows Admin's to view&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;the most update inventory values, in addition to allowing access&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;to add and delete items.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_19">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>30</y>
+          <width>541</width>
+          <height>141</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:600; text-decoration: underline;&quot;&gt;View &amp;amp; Edit Members&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;The View &amp;amp; Edit Inventory Member's allows Admin's to view&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;the most up to date member information, in addition to allowing access&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;to add and delete members.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_24">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>10</y>
+          <width>301</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt; font-weight:600; font-style:italic; text-decoration: underline;&quot;&gt;Admin Login Landing Page&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="AdminMemberpage">
@@ -655,9 +904,9 @@ Transactions</string>
         <property name="geometry">
          <rect>
           <x>45</x>
-          <y>30</y>
+          <y>50</y>
           <width>551</width>
-          <height>371</height>
+          <height>351</height>
          </rect>
         </property>
        </widget>
@@ -702,32 +951,6 @@ Transactions</string>
          </property>
         </widget>
        </widget>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>610</x>
-          <y>70</y>
-          <width>151</width>
-          <height>241</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_8">
-         <item>
-          <widget class="QLabel" name="Adminmembername">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="adminmemberID">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
        <widget class="QPushButton" name="adminviewmember">
         <property name="geometry">
          <rect>
@@ -741,27 +964,158 @@ Transactions</string>
          <string>View All Members</string>
         </property>
        </widget>
-       <widget class="QWidget" name="layoutWidget">
+       <widget class="QLabel" name="label_25">
         <property name="geometry">
          <rect>
-          <x>360</x>
-          <y>424</y>
-          <width>301</width>
-          <height>23</height>
+          <x>50</x>
+          <y>10</y>
+          <width>421</width>
+          <height>31</height>
          </rect>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QLabel" name="ExpirationDate">
-           <property name="text">
-            <string>Expiration</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDateEdit" name="dateEdit"/>
-         </item>
-        </layout>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt; font-weight:600; font-style:italic; text-decoration: underline;&quot;&gt;Member Management Landing Page&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="Adminmembername">
+        <property name="geometry">
+         <rect>
+          <x>600</x>
+          <y>100</y>
+          <width>149</width>
+          <height>53</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="adminmemberID">
+        <property name="geometry">
+         <rect>
+          <x>600</x>
+          <y>200</y>
+          <width>149</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_28">
+        <property name="geometry">
+         <rect>
+          <x>600</x>
+          <y>160</y>
+          <width>149</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; text-decoration: underline;&quot;&gt;Member ID:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_27">
+        <property name="geometry">
+         <rect>
+          <x>600</x>
+          <y>60</y>
+          <width>149</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; text-decoration: underline;&quot;&gt;Member's Name:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="managerMonthBox">
+        <property name="geometry">
+         <rect>
+          <x>510</x>
+          <y>420</y>
+          <width>161</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>Months</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>January</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>February</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>March</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>April</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>May</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>June</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>July</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>August</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>September</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>October</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>November</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>December</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLabel" name="label_29">
+        <property name="geometry">
+         <rect>
+          <x>400</x>
+          <y>426</y>
+          <width>121</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Experation Month:</string>
+        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="AdminIventoryPage">
@@ -769,19 +1123,19 @@ Transactions</string>
         <property name="geometry">
          <rect>
           <x>12</x>
-          <y>12</y>
+          <y>62</y>
           <width>271</width>
-          <height>551</height>
+          <height>501</height>
          </rect>
         </property>
        </widget>
        <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
-          <x>420</x>
-          <y>40</y>
-          <width>301</width>
-          <height>101</height>
+          <x>340</x>
+          <y>140</y>
+          <width>141</width>
+          <height>41</height>
          </rect>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -792,22 +1146,15 @@ Transactions</string>
            </property>
           </widget>
          </item>
-         <item>
-          <widget class="QPushButton" name="Delete">
-           <property name="text">
-            <string>Delete</string>
-           </property>
-          </widget>
-         </item>
         </layout>
        </widget>
        <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
-          <x>420</x>
-          <y>170</y>
-          <width>301</width>
-          <height>151</height>
+          <x>340</x>
+          <y>270</y>
+          <width>291</width>
+          <height>61</height>
          </rect>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -815,13 +1162,6 @@ Transactions</string>
           <widget class="QPushButton" name="ViewInventory_2">
            <property name="text">
             <string>View Inventory</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="BackFromInventory">
-           <property name="text">
-            <string>Back</string>
            </property>
           </widget>
          </item>
@@ -878,6 +1218,84 @@ Transactions</string>
           </widget>
          </item>
         </layout>
+       </widget>
+       <widget class="QLabel" name="label_20">
+        <property name="geometry">
+         <rect>
+          <x>340</x>
+          <y>330</y>
+          <width>431</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Click on an item's name to view it's information.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:600; text-decoration: underline;&quot;&gt;Currently Selected Item's Information&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="BackFromInventory">
+        <property name="geometry">
+         <rect>
+          <x>620</x>
+          <y>530</y>
+          <width>149</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Back</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_21">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>421</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt; font-weight:600; font-style:italic; text-decoration: underline;&quot;&gt;Inventory Management Landing Page&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_22">
+        <property name="geometry">
+         <rect>
+          <x>340</x>
+          <y>90</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:600; text-decoration: underline;&quot;&gt;Inventory Management Tools&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="Delete">
+        <property name="geometry">
+         <rect>
+          <x>340</x>
+          <y>220</y>
+          <width>144</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Delete</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_23">
+        <property name="geometry">
+         <rect>
+          <x>350</x>
+          <y>200</y>
+          <width>361</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Important! Please select an item from the table, to delete it.</string>
+        </property>
        </widget>
       </widget>
      </widget>

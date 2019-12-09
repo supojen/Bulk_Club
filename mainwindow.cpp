@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 #include <QMessageBox>
 #include <QPixmap>
 
@@ -14,6 +15,9 @@ MainWindow::MainWindow(Controller *controller, QWidget *parent)
     int w = ui ->logo->width();
     int h = ui ->logo->height();
     ui->logo->setPixmap(pix.scaled(w,h,Qt::KeepAspectRatio));
+
+    ui->MAINWINDOW->setMinimumSize(800, 600);   // args are (width, height) in pixels
+     // This sets the minimum size (pixels) of the main window. It cannot be shrunk smaller than those values.
 
     QFile file(QDir::homePath() + "/storedDates.txt");
        if(!file.exists())
@@ -128,72 +132,75 @@ void MainWindow::on_viewItems_clicked()
 
 void MainWindow::on_loadSales_clicked()
 {
-    QString comboDate;
-        m_controller->readRecordFile();
-        m_controller->getComboDate(comboDate);
-
-
-        qDebug() << comboDate;
-        ui-> comboBox->addItem(comboDate);
-        QFile file(QDir::homePath() + "/storedDates.txt");
-        if(!file.exists())
+        QString comboDate;
+        if(m_controller->readRecordFile() == true)
         {
-            qDebug() << file.fileName() << " does not exist";
-        }
+            m_controller->getComboDate(comboDate);
 
-        if(file.open(QIODevice::Append| QIODevice::WriteOnly | QIODevice::Text))
-        {
-            QTextStream txtStream (&file);
+            qDebug() << comboDate;
+            ui-> comboBox->addItem(comboDate);
+            QFile file(QDir::homePath() + "/storedDates.txt");
+            if(!file.exists())
+            {
+                qDebug() << file.fileName() << " does not exist";
+            }
 
-            qDebug() << "~ Writing To File ~";
-            qDebug() << comboDate << endl;
-            txtStream << comboDate << endl;
-            file.close();
-        }
-        /* The addition to the original controller function here adds functinailty
-         * for the date to be added to a new file that stores the dates that have
-         * already been added to the application. This is helpful because, without saving this information
-         * the combobox does not keep the dynamically added dates. Therefore the dates are saved, and loaded
-         * into the combobox when the application is started up.
-         */
-        QFile file2(QDir::homePath() + "/warehouse shoppers.txt");
-        if(!file.exists())
-        {
-            qDebug() << file2.fileName() << " does not exist";
-        }
-        QString name;
-        QString memberID;
-        QString type;
-        QString fullDate;
-        QString month;
-        QString day;
-        QString year;
-        QSqlQuery qry;
-        if(file2.open(QIODevice::ReadOnly | QIODevice::Text))
-        {
-            QTextStream stream2(&file2);
-               while (!stream2.atEnd())
-               {
-                    name = stream2.readLine();
-                    qDebug() << name << endl;
-                    memberID = stream2.readLine();
-                    type = stream2.readLine();
-                    fullDate = stream2.readLine();
-                    month = fullDate.mid(0,2);
-                    qDebug() << month << endl;
-                    day = fullDate.mid(3,2);
-                    qDebug() << day << endl;
-                    year = fullDate.mid(6,4);
-                    qDebug() << year << endl;
-                    float spent =m_controller->calcMemberSpent(memberID.toInt());
-                    qDebug() << spent << endl;
+            if(file.open(QIODevice::Append| QIODevice::WriteOnly | QIODevice::Text))
+            {
+                QTextStream txtStream (&file);
 
-                    qry.exec("update member set id = '"+memberID+"', name= '"+name+"', year = '"+year+"',"
-                             " month  = '"+month+"', day = '"+day+"',spent = '"+QString::number(spent)+"' where id = '"+memberID+"'");
-               }
+                qDebug() << "~ Writing To File ~";
+                qDebug() << comboDate << endl;
+                txtStream << comboDate << endl;
+                file.close();
+            }
+            /* The addition to the original controller function here adds functinailty
+             * for the date to be added to a new file that stores the dates that have
+             * already been added to the application. This is helpful because, without saving this information
+             * the combobox does not keep the dynamically added dates. Therefore the dates are saved, and loaded
+             * into the combobox when the application is started up.
+             */
+            QFile file2(QDir::homePath() + "/warehouse shoppers.txt");
+            if(!file.exists())
+            {
+                qDebug() << file2.fileName() << " does not exist";
+            }
+            QString name;
+            QString memberID;
+            QString type;
+            QString fullDate;
+            QString month;
+            QString day;
+            QString year;
+            QSqlQuery qry;
+            if(file2.open(QIODevice::ReadOnly | QIODevice::Text))
+            {
+                QTextStream stream2(&file2);
+                   while (!stream2.atEnd())
+                   {
+                        name = stream2.readLine();
+                        qDebug() << name << endl;
+                        memberID = stream2.readLine();
+                        type = stream2.readLine();
+                        fullDate = stream2.readLine();
+                        month = fullDate.mid(0,2);
+                        qDebug() << month << endl;
+                        day = fullDate.mid(3,2);
+                        qDebug() << day << endl;
+                        year = fullDate.mid(6,4);
+                        qDebug() << year << endl;
+                        float spent =m_controller->calcMemberSpent(memberID.toInt());
+                        qDebug() << spent << endl;
 
+                        qry.exec("update member set id = '"+memberID+"', name= '"+name+"', year = '"+year+"',"
+                                 " month  = '"+month+"', day = '"+day+"',spent = '"+QString::number(spent)+"' where id = '"+memberID+"'");
+                   }
+
+            }
+            file2.close();
         }
-        file2.close();
+        else
+            QMessageBox::warning(this,"Date Already Added", "This Daily Sales Report Has Already Been Added to the Database!");
 
 
 }
@@ -201,21 +208,105 @@ void MainWindow::on_loadSales_clicked()
 void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
 {
     QString date = ui->comboBox->currentText();
-    QStringList str_split = date.split(',');
-    int day = str_split[1].toInt();
+    if(date !=  "Select Your Date")
+    {
+        QStringList str_split = date.split(',');
+        int day = str_split[1].toInt();
 
-    QString condition = "day==";
-    condition += QString::number(day);
+        QString condition = "day==";
+        condition += QString::number(day);
 
-    ui->managerTable->setModel(
-    m_controller->getRecordsQueryModelWithCondition(condition));
-    ui->managerTable->setColumnHidden(0,true);
-    ui->managerTable->setColumnHidden(2,true);
-    ui->managerTable->setColumnHidden(3,true);
-    ui->managerTable->setColumnHidden(4,true);
-    ui->managerTable->show();
-    ui->managerTable->resizeColumnsToContents();
+        ui->managerTable->setModel(
+        m_controller->getRecordsQueryModelWithCondition(condition));
+        ui->managerTable->setColumnHidden(0,true);
+        ui->managerTable->setColumnHidden(2,true);
+        ui->managerTable->setColumnHidden(3,true);
+        ui->managerTable->setColumnHidden(4,true);
+        ui->managerTable->show();
+        ui->managerTable->resizeColumnsToContents();
 
+        //qDebug() << day << endl;
+        // The purpose for this part is finding the total spent for the day
+        // total_spent varaible hold the total spent
+        //---------------------------------------------------------------------
+        auto commodities = m_controller->getCommodity();
+        auto model = m_controller->getRecordsQueryModelWithCondition(condition);
+        float total_spent = 0;
+        QStringList memberIDs;
+
+        for(int index = 0; index < model->rowCount();index++)
+        {
+            int quantity = model->record(index).value("quantity").toInt();
+            QString item = model->record(index).value("item").toString();
+            QString ID = model->record(index).value("member_id").toString();
+
+            if(memberIDs.contains(ID))
+            {
+                qDebug() << "ID is already in the Array" << endl;
+            }
+            else
+            {
+                memberIDs.append(ID);
+            }
+            float spent = 0;
+
+            for(int com_iter = 0; com_iter < commodities.count(); com_iter++)
+            {
+
+                if(item == commodities[com_iter]->item())
+                {
+                    spent = commodities[com_iter]->price();
+                    break;
+                }
+            }
+            spent *= quantity;
+            total_spent += spent;
+
+        }
+
+        ui->totalCustomers ->setText(QString::number(memberIDs.size()));
+        ui->totalSalesLabel->setText("$" + QString::number(total_spent));
+
+        // IF THE PROGRAM BREAKS DELETE THIS
+        // --------------------------------------------------------------------
+        QSqlQuery qry;
+        QString type;
+        int exec = 0;
+        int reg = 0;
+
+        for(QStringList::iterator it = memberIDs.begin(); it != memberIDs.end(); it++)
+        {
+            QString current = *it;
+            qDebug() << current << endl;
+            qry.prepare("Select * from record where member_id = '"+current+"'");
+
+        if (qry.exec())
+        {
+            while(qry.next())
+            {
+                qry.prepare("Select * from member where id = '"+current+"'");
+                if (qry.exec())
+                {
+                    while(qry.next())
+                    {
+                        type = qry.value(2).toString();
+                        qDebug() << type << endl;
+                        if(type == "Executive")
+                            exec++;
+                        else if (type == "Regular")
+                            reg++;
+                        else
+                            qDebug() << "No Matching Type Detected!";
+                    }
+                }
+
+            }
+        }
+        }
+        //---------------------------------------------------------------------
+    ui->totalRegularCustomers->setText(QString::number(reg));
+    ui->totalExecutiveCustomers->setText(QString::number(exec));
+    }
 }
 void MainWindow::showTables()
 {
@@ -314,6 +405,7 @@ void MainWindow::on_createMember_clicked()
     QString day;
     QString spent = "0.0";
     QString rebate = "0.0";
+    float   renewal = 0.0;
 
     QDate date = QDate::currentDate();
     QString stringDate = date.toString();
@@ -365,17 +457,25 @@ void MainWindow::on_createMember_clicked()
     type = ui->typeBox->currentText();
     memberId =generateMemberID();
 
+    // set renewal cost
+     if (type == "Regular")
+         renewal = 65.00;
+     else if (type == "Executive")
+         renewal = 120.00;
+     else
+         qDebug() << " MainWindow::on_createMember_clicked() Error - improper membership type \n";
+
     /*
      * memberId is created before the execution which consistently generates a new 5 digit number to be assigned as a unique memberId
      */
 
     QSqlQuery qry;
-    qry.prepare("INSERT INTO member (id, name, type, year, month, day, spent, rebate )"
-                " values( '"+memberId+"','"+name+"','"+type+"','"+year+"','"+month+"','"+dayDate+"', '"+spent+"','"+rebate+"')");
+    qry.prepare("INSERT INTO member (id, name, type, year, month, day, spent, rebate, renewal )"
+                " values( '"+memberId+"','"+name+"','"+type+"','"+year+"','"+month+"','"+dayDate+"', '"+spent+"','"+rebate+"', '"+QString::number(renewal)+"')");
     if(!qry.exec())
     {
         qDebug() << memberId << " " << name << " " << type << " " << year << " " << month << " " << dayDate <<
-                    " " << spent << " " << rebate << endl;
+                    " " << spent << " " << rebate << " " << renewal << endl;
         qDebug() <<"error Loading values to db" << endl;
     }
 
@@ -563,6 +663,9 @@ void MainWindow::on_adminviewmember_clicked()
 {
         ui->adminmembertable->setModel(m_controller->getMembersQueryModel());
         ui->adminmembertable->resizeColumnsToContents();
+        ui->adminmembertable->showColumn(6);    // show "spent" column
+        ui->adminmembertable->showColumn(7);    // show "rebate" column
+        ui->adminmembertable->show();           // display results in table
 }
 
 void MainWindow::on_dateEdit_userDateChanged(const QDate &date)
@@ -573,6 +676,11 @@ void MainWindow::on_dateEdit_userDateChanged(const QDate &date)
     qDebug() << year;
 
     ui->adminmembertable->setModel(m_controller->getMembersExpiredAttheMonth(date.year(),date.month()));
+    ui->adminmembertable->setModel(m_controller->getMembersExpiredAttheMonth(date.year(),date.month()));    // Get members whose expiration date matches month and year
+    ui->adminmembertable->resizeColumnsToContents();    // Match column width to max entry width
+    ui->adminmembertable->hideColumn(6);    // hide "spent" column
+    ui->adminmembertable->hideColumn(7);    // hide "rebate" column
+    ui->adminmembertable->show();           // display results in table
 }
 
 void MainWindow::on_ClearButton_clicked()
@@ -699,7 +807,8 @@ void MainWindow::on_AddInventory_clicked()
 {
 
     QString name = QInputDialog::getText(this,"Add Item", "Enter the Item Name");
-    double price = QInputDialog::getDouble(this,"Price For Item", "Enter the Item price");
+    double price = QInputDialog::getDouble(this,"Price For Item", "Enter the Item price", 0.00, 0.00, 999999.99, 2);
+                                        // Default price is $0, min price is $0, max price is $999,999.99, max two decimal places
     m_controller->addInventory(name,price);
     ui->TableAdminInventory->setModel(m_controller->getInventoryQueryModel());
 }
@@ -736,8 +845,10 @@ void MainWindow::on_Delete_clicked()
 {
     m_controller->deleteInventory(ui->Itemshow->text());
     ui->TableAdminInventory->setModel(m_controller->getInventoryQueryModel());
+    QMessageBox::warning(this, "Delete Successful", "You have Sucsessfully Deleted " + ui->Itemshow->text() + " from the Inventory");
     ui->Itemshow->clear();
     ui->ItemPrice->clear();
+
 }
 
 void MainWindow::on_Adminsortmember_clicked()
@@ -782,12 +893,28 @@ void MainWindow::on_adminmembertable_clicked(const QModelIndex &index)
 
 void MainWindow::on_AdminAddCustomer_clicked()
 {
+    bool ok;
+    QStringList type = {"Regular", "Executive"};
+    QString rank;
     QString name = QInputDialog::getText(this,"Add Member", "Enter the Member's Name");
-    int id = QInputDialog::getInt(this,"Add member", "Enter the Member's ID");
-    QString Type = QInputDialog::getText(this,"Add Member", "Enter the Member's Type");
-    m_controller->addCustomer(name,id,Type);
-    ui->adminmembertable->setModel(m_controller->getMembersQueryModel());
-    ui->adminmembertable->resizeColumnsToContents();
+    if (name == "")
+    {
+        QMessageBox::warning(this, "Name Error", "The Member's Name Field Cannot Be Left Blank!");
+        ui->stackedWidget->setCurrentWidget(ui->AdminMemberpage);
+    }
+    else
+    {
+        QString Type = QInputDialog::getItem(this,"Add Member", "Member Type: ", type, 0, false, &ok);
+        qDebug() << Type << endl;
+        qDebug() << name << endl;
+        QString id = generateMemberID();
+        qDebug() << id << endl;
+        m_controller->addCustomer(name,id.toInt(),Type);
+        QMessageBox::information(this, "Member Creation Successful", "Member " + name + " has been created succsessfully with"
+                                                                                        " unique member ID: " + id);
+        ui->adminmembertable->setModel(m_controller->getMembersQueryModel());
+        ui->adminmembertable->resizeColumnsToContents();
+    }
 }
 
 //
@@ -867,4 +994,77 @@ bool MainWindow::checkUpgrade(double spent, QString ID, QString rank)
         QMessageBox::information(this, "Member Status", "Downgrade reccomendation has been sent to the Executive Member #" + ID);
         return false;
     }
+}
+
+
+void MainWindow::on_monthBox_currentIndexChanged(const QString &arg1)
+{
+    QString expiringMonth;
+
+    expiringMonth = ui->monthBox->currentText();
+    if (expiringMonth == "January")
+        expiringMonth = "1";
+    else if (expiringMonth == "February")
+        expiringMonth = "2";
+    else if (expiringMonth == "March")
+        expiringMonth = "3";
+    else if (expiringMonth == "April")
+        expiringMonth = "4";
+    else if (expiringMonth == "May")
+        expiringMonth = "5";
+    else if (expiringMonth == "June")
+        expiringMonth = "6";
+    else if (expiringMonth == "July")
+        expiringMonth = "7";
+    else if (expiringMonth == "August")
+        expiringMonth = "8";
+    else if (expiringMonth == "September")
+        expiringMonth = "9";
+    else if (expiringMonth == "October")
+        expiringMonth = "10";
+    else if (expiringMonth == "November")
+        expiringMonth = "11";
+    else if (expiringMonth == "December")
+        expiringMonth = "12";
+    else
+        qDebug() << "No Valid Month" << endl;
+
+     ui->managerTable->setModel(m_controller->getMembersExpiredAttheMonth(2020,expiringMonth.toInt()));
+     ui->managerTable->resizeColumnsToContents();
+}
+
+void MainWindow::on_managerMonthBox_currentIndexChanged(const QString &arg1)
+{
+    QString expiringMonth;
+
+    expiringMonth = ui->managerMonthBox->currentText();
+    if (expiringMonth == "January")
+        expiringMonth = "1";
+    else if (expiringMonth == "February")
+        expiringMonth = "2";
+    else if (expiringMonth == "March")
+        expiringMonth = "3";
+    else if (expiringMonth == "April")
+        expiringMonth = "4";
+    else if (expiringMonth == "May")
+        expiringMonth = "5";
+    else if (expiringMonth == "June")
+        expiringMonth = "6";
+    else if (expiringMonth == "July")
+        expiringMonth = "7";
+    else if (expiringMonth == "August")
+        expiringMonth = "8";
+    else if (expiringMonth == "September")
+        expiringMonth = "9";
+    else if (expiringMonth == "October")
+        expiringMonth = "10";
+    else if (expiringMonth == "November")
+        expiringMonth = "11";
+    else if (expiringMonth == "December")
+        expiringMonth = "12";
+    else
+        qDebug() << "No Valid Month" << endl;
+
+     ui->adminmembertable->setModel(m_controller->getMembersExpiredAttheMonth(2020,expiringMonth.toInt()));
+     ui->adminmembertable->resizeColumnsToContents();
 }
