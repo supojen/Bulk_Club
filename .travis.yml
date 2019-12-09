@@ -1,3 +1,11 @@
+notifications:  
+  email:  
+    recipients:  
+    - metaknighttu@gmail.com  
+    on_success: always  
+    on_failure: always
+
+
 matrix:
  include:
   - name: OSX 10.12 (GCC)
