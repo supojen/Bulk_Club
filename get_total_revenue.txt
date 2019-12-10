@@ -1,0 +1,21 @@
+float Controller::get_total_revenue()
+{
+
+    float reveune = 0;
+    for(int index=0; index < m_records.count(); index++)
+    {
+        float price = m_records[index]->quantity();
+        for(int index_com = 0; index_com < m_commodities.count(); index_com++)
+        {
+            if(m_commodities[index_com]->item() == m_records[index]->item())
+            {
+                price *= m_commodities[index_com]->price();
+                break;
+            }
+        }
+        reveune += price;
+    }
+    reveune *= 1.0775;
+
+    return reveune;
+}
