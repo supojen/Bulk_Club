@@ -112,6 +112,8 @@ private slots:
 
     void on_managerMonthBox_currentIndexChanged(const QString &arg1);
 
+    void on_pushButton_2_clicked();
+
 protected:
     void keyPressEvent(QKeyEvent* pe);
 

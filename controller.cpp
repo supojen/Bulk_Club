@@ -750,6 +750,22 @@ QSqlQueryModel *Controller::SortByRevenueItems()
 
     return model;
 }
+
+QSqlQueryModel *Controller::SortByRebate()
+{
+    QSqlQueryModel* model = new QSqlQueryModel();
+    QSqlQuery qry;
+
+    qry.prepare("select id, name, type, spent, rebate from member where type = 'Executive' order by rebate desc");
+    if(!qry.exec())
+    {
+        qDebug() << "error loading values from the database" << endl;
+    }
+
+    model->setQuery(qry);
+
+    return model;
+}
 QSqlQueryModel *Controller::SortByNameItems()
 {
     QSqlQueryModel* model = new QSqlQueryModel();
@@ -1024,7 +1040,7 @@ float Controller::calcMemberSpent(int member_id)
 float Controller::calcMemberRebate(int member_id)
 {
     float spent = calcMemberSpent(member_id);
-    float rebate = spent * float(0.02);
+    float rebate = (spent / 1.0775) * float(0.02);
     return rebate;
 }
 

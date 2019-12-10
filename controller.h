@@ -152,6 +152,7 @@ public:
      QSqlQueryModel* SortByRevenueItems();       // returns the list of commodities sorted by revenue (asc. order)
      QSqlQueryModel* SortByNameItems();          // returns the list of commodities sorted by item name (asc. order)
      QSqlQueryModel *getInventoryQueryModel();   // returns the inventory list
+     QSqlQueryModel *SortByRebate();
 
 
     QSqlTableModel* getMembersQueryModelWithCondition(QString condition);

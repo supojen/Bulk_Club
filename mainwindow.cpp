@@ -19,7 +19,7 @@ MainWindow::MainWindow(Controller *controller, QWidget *parent)
     ui->MAINWINDOW->setMinimumSize(800, 600);   // args are (width, height) in pixels
      // This sets the minimum size (pixels) of the main window. It cannot be shrunk smaller than those values.
 
-    ui->totalProfits->setText(QString::number(m_controller->get_total_revenue()));
+
 
     QFile file(QDir::homePath() + "/storedDates.txt");
        if(!file.exists())
@@ -121,6 +121,7 @@ void MainWindow::changetoValidationTool()
 void MainWindow::changeToManager()
 {
     ui->stackedWidget->setCurrentWidget(ui->managerLogin);
+    ui->totalProfits->setText(QString::number(m_controller->get_total_revenue()));
     page++;
 }
 
@@ -279,7 +280,7 @@ void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
 
         total_spent *= 1.0775;
         ui->totalCustomers ->setText(QString::number(memberIDs.size()));
-        ui->totalSalesLabel->setText("$" + QString::number(total_spent));
+        ui->totalSalesLabel->setText("$" + QString::number(total_spent,'f',2));
 
         // IF THE PROGRAM BREAKS DELETE THIS
         // --------------------------------------------------------------------
@@ -364,6 +365,29 @@ void MainWindow::on_comboBox_2_currentIndexChanged(const QString &arg1)
         showTables();
         ui->managerTable->setModel(m_controller->SortByNameItems());
         ui->managerTable->resizeColumnsToContents();
+    }
+    if(select == "View Rebate Totals")
+    {
+        showTables();
+        ui->managerTable->setModel(m_controller->SortByRebate());
+        ui->managerTable->resizeColumnsToContents();
+
+        QSqlQuery qry;
+        double rebate = 0;
+        double totalRebate = 0;
+        qry.prepare("select * from member where type = 'Executive'");
+
+        if(qry.exec())
+        {
+            while(qry.next())
+            {
+                rebate = qry.value(7).toDouble();
+                totalRebate += rebate;
+                qDebug() << totalRebate << endl;
+
+            }
+        }
+        QMessageBox::information(this, "Rebate Total", "The Total Rebate for All Executive Members is $" + QString::number(totalRebate,'f',2));
     }
 }
 
@@ -590,7 +614,8 @@ void MainWindow::on_adminTable_clicked(const QModelIndex &index)
 
 void MainWindow::on_FinalizePurchase_clicked()
 {
-    QString price;
+        QString price;
+        QString subtotal;
         QString rebate;
         QString name;
         QString item;
@@ -601,19 +626,45 @@ void MainWindow::on_FinalizePurchase_clicked()
         QString year;
         QString month;
         QString day;
+        double savedSubtotal = 0.0;
+        double savedRebate = 0.0;
+        int quantity;
+
+        // TO KEEP MY TRAIN OF THOUGHT MAKE A QRY AND ADD THE VAULE OF SUBTOTAL TO SAVED SUBTOTAL AND REUPDATE THE VALUE.
 
         price = ui->priceShow->text();
-        name = ui->nameEdit->text();
+        name = ui->memberName->text();
         memberType = ui->memberType->text();
         memberID = ui->memberId->text();
         item = ui->nameShow->text();
+        subtotal = ui->subShow->text();
+        quantity = ui->spinBox->value();
 
+        qDebug() << subtotal;
         if(ui->priceShow->text() != "")
         {
-        rebate = QString::number(price.toDouble() * 0.02);
+        rebate = QString::number((price.toDouble() * quantity) * 0.02);
+        subtotal = QString::number(subtotal.toDouble() * quantity);
+        qry.prepare("select * from member where id = '"+memberID+"'");
 
-        qry.exec("update member set spent = '"+price+"', rebate = '"+rebate+"' where name = '"+name+"'");
+        qDebug() << subtotal;
+        if(qry.exec())
+        {
+            while(qry.next())
+            {
+                savedSubtotal = qry.value(6).toDouble();
+                savedRebate = qry.value(7).toDouble();
 
+                savedSubtotal = savedSubtotal + subtotal.toDouble();
+                savedRebate = savedRebate + rebate.toDouble();
+            }
+        }
+        qDebug() << savedSubtotal << " " << savedRebate << endl;
+        qry.prepare("update member set spent = '"+QString::number(savedSubtotal)+"', rebate = '"+QString::number(savedRebate)+"' where name = '"+name+"'");
+        if(!qry.exec())
+        {
+            qDebug() << "Query failed to execute" << endl;
+        }
         QMessageBox::information(this,"Purchase Complete", "Purchase Has Successfully Been Completed by Member " + name);
 
         QString dayYear;
@@ -650,7 +701,7 @@ void MainWindow::on_FinalizePurchase_clicked()
 
         QString finalDate = month + '/' + dayDate + '/' + year;
 
-            savetoNewFile(finalDate, memberID,item, price, "1");
+            savetoNewFile(finalDate, memberID,item, price, QString::number(quantity));
 
             QString fullMonth = getFullMonth(month);
             QString fullDate = fullMonth + ", " + dayDate +", "+ year;
@@ -1113,3 +1164,114 @@ void MainWindow::on_managerMonthBox_currentIndexChanged(const QString &arg1)
      ui->adminmembertable->setModel(m_controller->getMembersExpiredAttheMonth(2020,expiringMonth.toInt()));
      ui->adminmembertable->resizeColumnsToContents();
 }
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    // GET BACK TO THIS WHEN FEELING MORE MOTIVATED.
+    QString price;
+    QString subtotal;
+    QString rebate;
+    QString name;
+    QString item;
+    QString memberType;
+    QString memberID;
+    QSqlQuery qry;
+
+    QString year;
+    QString month;
+    QString day;
+    double savedSubtotal = 0.0;
+    double savedRebate = 0.0;
+    int quantity;
+
+    // TO KEEP MY TRAIN OF THOUGHT MAKE A QRY AND ADD THE VAULE OF SUBTOTAL TO SAVED SUBTOTAL AND REUPDATE THE VALUE.
+
+    price = ui->priceShow->text();
+    name = ui->memberName->text();
+    memberType = ui->memberType->text();
+    memberID = ui->memberId->text();
+    item = ui->nameShow->text();
+    subtotal = ui->subShow->text();
+    quantity = ui->spinBox->value();
+
+    qDebug() << subtotal;
+    if(ui->priceShow->text() != "")
+    {
+    rebate = QString::number((price.toDouble() * quantity) * 0.02);
+    subtotal = QString::number(subtotal.toDouble() * quantity);
+    qry.prepare("select * from member where id = '"+memberID+"'");
+
+    qDebug() << subtotal;
+    if(qry.exec())
+    {
+        while(qry.next())
+        {
+            savedSubtotal = qry.value(6).toDouble();
+            savedRebate = qry.value(7).toDouble();
+
+            savedSubtotal = savedSubtotal + subtotal.toDouble();
+            savedRebate = savedRebate + rebate.toDouble();
+        }
+    }
+    qDebug() << savedSubtotal << " " << savedRebate << endl;
+    qry.prepare("update member set spent = '"+QString::number(savedSubtotal)+"', rebate = '"+QString::number(savedRebate)+"' where name = '"+name+"'");
+    if(!qry.exec())
+    {
+        qDebug() << "Query failed to execute" << endl;
+    }
+
+    QMessageBox::information(this,"Purchase Complete", "Items Have Been Successfully added to your transaction");
+
+    QString dayYear;
+    QDate date = QDate::currentDate();
+    QString stringDate = date.toString();
+    QString monthDate = stringDate.mid( 4, 3);
+    QString dayDate = stringDate.mid(8,2);
+
+    if (dayDate.toInt() < 10)
+        {
+            dayYear = stringDate.mid(10,5);
+            qDebug() << "The Current Date is less than 10" << endl;
+        }
+    else
+        {
+            dayYear = stringDate.mid(11,5);
+            qDebug() << "The Current Date is greater than 10" << endl;
+        }
+
+    int intYear = dayYear.toInt();
+    year = QString::number(intYear);
+    qDebug() << date << endl;
+
+    qDebug() << monthDate << endl;
+    qDebug() << year << endl;
+    qDebug() << stringDate << endl;
+
+    month = getMonth(monthDate);
+    if (dayDate.toInt() < 10)
+    {
+        dayDate = "0" + dayDate;
+        dayDate = dayDate.mid(0,2);
+    }
+
+    QString finalDate = month + '/' + dayDate + '/' + year;
+
+        savetoNewFile(finalDate, memberID,item, price, QString::number(quantity));
+
+        QString fullMonth = getFullMonth(month);
+        QString fullDate = fullMonth + ", " + dayDate +", "+ year;
+        qDebug() << fullDate;
+
+        ui->nameShow->clear();
+        ui->subShow->clear();
+        ui->priceShow->clear();
+        ui->spinBox->setValue(0);
+
+    }
+    else
+        QMessageBox::warning(this, "Purchase Failure", "You Must Select an Item to Purchase Before Continuing");
+
+
+}
+
+
