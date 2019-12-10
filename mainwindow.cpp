@@ -19,6 +19,8 @@ MainWindow::MainWindow(Controller *controller, QWidget *parent)
     ui->MAINWINDOW->setMinimumSize(800, 600);   // args are (width, height) in pixels
      // This sets the minimum size (pixels) of the main window. It cannot be shrunk smaller than those values.
 
+    ui->totalProfits->setText(QString::number(m_controller->get_total_revenue()));
+
     QFile file(QDir::homePath() + "/storedDates.txt");
        if(!file.exists())
        {
@@ -128,11 +130,21 @@ void MainWindow::on_viewItems_clicked()
     showTables();
    ui->managerTable->setModel(m_controller->getCommoditiesQueryModel());
    ui->managerTable->resizeColumnsToContents();
+
+   ui->totalSalesLabel->clear();
+   ui->totalCustomers->clear();
+   ui->totalRegularCustomers->clear();
+   ui->totalExecutiveCustomers->clear();
 }
 
 void MainWindow::on_loadSales_clicked()
 {
-        QString comboDate;
+    ui->totalSalesLabel->clear();
+    ui->totalCustomers->clear();
+    ui->totalRegularCustomers->clear();
+    ui->totalExecutiveCustomers->clear();
+
+    QString comboDate;
         if(m_controller->readRecordFile() == true)
         {
             m_controller->getComboDate(comboDate);
@@ -198,6 +210,8 @@ void MainWindow::on_loadSales_clicked()
 
             }
             file2.close();
+            ui->totalProfits->setText(QString::number(m_controller->get_total_revenue()));
+
         }
         else
             QMessageBox::warning(this,"Date Already Added", "This Daily Sales Report Has Already Been Added to the Database!");
@@ -261,9 +275,9 @@ void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
             }
             spent *= quantity;
             total_spent += spent;
-
         }
 
+        total_spent *= 1.0775;
         ui->totalCustomers ->setText(QString::number(memberIDs.size()));
         ui->totalSalesLabel->setText("$" + QString::number(total_spent));
 
@@ -319,6 +333,11 @@ void MainWindow::showTables()
 
 void MainWindow::on_comboBox_2_currentIndexChanged(const QString &arg1)
 {
+    ui->totalSalesLabel->clear();
+    ui->totalCustomers->clear();
+    ui->totalRegularCustomers->clear();
+    ui->totalExecutiveCustomers->clear();
+
     QString select = ui->comboBox_2->currentText();
 
     if(select == "Sort Members By ID")
@@ -499,6 +518,11 @@ void MainWindow::on_createMember_clicked()
 void MainWindow::on_LoadMemberInfo_clicked()
 {
        m_controller->readMemberFile();
+
+       ui->totalSalesLabel->clear();
+       ui->totalCustomers->clear();
+       ui->totalRegularCustomers->clear();
+       ui->totalExecutiveCustomers->clear();
 }
 
 void MainWindow::on_SearchItembyname_clicked()
@@ -508,6 +532,11 @@ void MainWindow::on_SearchItembyname_clicked()
 
     ui->managerTable->setModel(m_controller->getCommoditiesQueryModelbyName(name));
     ui->managerTable->resizeColumnsToContents();
+
+    ui->totalSalesLabel->clear();
+    ui->totalCustomers->clear();
+    ui->totalRegularCustomers->clear();
+    ui->totalExecutiveCustomers->clear();
 }
 
 void MainWindow::on_SearchCustomerByID_clicked()
@@ -523,6 +552,11 @@ void MainWindow::on_SearchCustomerByID_clicked()
     showTables();
     ui->managerTable->setModel(m_controller->getRecordsQueryModelWithCondition(condition));
     ui->managerTable->resizeColumnsToContents();
+
+    ui->totalSalesLabel->clear();
+    ui->totalCustomers->clear();
+    ui->totalRegularCustomers->clear();
+    ui->totalExecutiveCustomers->clear();
 }
 
 void MainWindow::on_adminTable_clicked(const QModelIndex &index)
@@ -925,6 +959,11 @@ void MainWindow::on_Viewmembermanager_clicked()
    ui->managerTable->setModel(m_controller->getRecordsQueryModel());
    showTables();
    ui->managerTable->resizeColumnsToContents();
+
+   ui->totalSalesLabel->clear();
+   ui->totalCustomers->clear();
+   ui->totalRegularCustomers->clear();
+   ui->totalExecutiveCustomers->clear();
 }
 
 void MainWindow::on_managerTable_clicked(const QModelIndex &index)
@@ -999,6 +1038,12 @@ bool MainWindow::checkUpgrade(double spent, QString ID, QString rank)
 
 void MainWindow::on_monthBox_currentIndexChanged(const QString &arg1)
 {
+
+    ui->totalSalesLabel->clear();
+    ui->totalCustomers->clear();
+    ui->totalRegularCustomers->clear();
+    ui->totalExecutiveCustomers->clear();
+
     QString expiringMonth;
 
     expiringMonth = ui->monthBox->currentText();

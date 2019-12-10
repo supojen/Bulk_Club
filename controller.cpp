@@ -806,7 +806,7 @@ QSqlQueryModel *Controller::getCommoditiesQueryModelbyName(QString name)
     QSqlQueryModel* model = new QSqlQueryModel();
 
     QSqlQuery qry;
-    qry.prepare("select * from commodity where item =:name");
+    qry.prepare("select * from commodity where item LIKE '%"+name+"%' COLLATE NOCASE ");
     qry.bindValue(":name",name);
     if(!qry.exec())
     {
@@ -1017,6 +1017,7 @@ float Controller::calcMemberSpent(int member_id)
         }
     }
 
+    spent *= 1.0775;
     return spent;
 }
 
@@ -1192,7 +1193,7 @@ void Controller::addCustomer(QString name, int id,QString Type)
     qry.addBindValue(id);
     qry.addBindValue(name);
     qry.addBindValue(Type);
-    qry.addBindValue(QDate::currentDate().year());
+    qry.addBindValue(QDate::currentDate().year() + 1);
     qry.addBindValue(QDate::currentDate().month());
     qry.addBindValue(QDate::currentDate().day());
     qry.addBindValue(0);
@@ -1214,4 +1215,26 @@ void Controller::deleteCustomer(QString name)
     {
         qDebug() <<"error deleting values to db" << endl;
     }
+}
+
+float Controller::get_total_revenue()
+{
+
+    float reveune = 0;
+    for(int index=0; index < m_records.count(); index++)
+    {
+        float price = m_records[index]->quantity();
+        for(int index_com = 0; index_com < m_commodities.count(); index_com++)
+        {
+            if(m_commodities[index_com]->item() == m_records[index]->item())
+            {
+                price *= m_commodities[index_com]->price();
+                break;
+            }
+        }
+        reveune += price;
+    }
+    reveune *= 1.0775;
+
+    return reveune;
 }

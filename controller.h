@@ -177,6 +177,8 @@ public:
     void deleteCustomer(QString name);
     void addCustomer(QString name, int id,QString Type);
 
+    float get_total_revenue();
+
 
 
 signals:
