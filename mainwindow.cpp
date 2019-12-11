@@ -665,7 +665,8 @@ void MainWindow::on_FinalizePurchase_clicked()
         {
             qDebug() << "Query failed to execute" << endl;
         }
-        QMessageBox::information(this,"Purchase Complete", "Purchase Has Successfully Been Completed by Member " + name);
+        QMessageBox::information(this,"Purchase Complete", "Purchase Has Successfully Been Completed by Member " + name +
+                                 " Transaction Total: $" + QString::number(savedSubtotal,'f',2));
 
         QString dayYear;
         QDate date = QDate::currentDate();
@@ -1198,7 +1199,8 @@ void MainWindow::on_pushButton_2_clicked()
     if(ui->priceShow->text() != "")
     {
     rebate = QString::number((price.toDouble() * quantity) * 0.02);
-    subtotal = QString::number(subtotal.toDouble() * quantity);
+    subtotal = QString::number(price.toDouble() * quantity);
+    subtotal = QString::number(subtotal.toDouble() * 1.0775);
     qry.prepare("select * from member where id = '"+memberID+"'");
 
     qDebug() << subtotal;
@@ -1273,5 +1275,20 @@ void MainWindow::on_pushButton_2_clicked()
 
 
 }
+void MainWindow::on_spinBox_valueChanged(int arg1)
+{
+    QString price;
+    double subtotal;
+    int qty;
+    price = ui->priceShow->text();
+    qty = ui->spinBox->value();
+    subtotal = (price.toDouble() * qty) * 1.0775;
+    ui->subShow->setText(QString::number(subtotal,'f',2));
 
-
+    /*
+     * The purpose of this function is to dynamically update the subtotal amount displayed on
+     * the screen when the user is updating the amount the spent. It takes the price of the item
+     * and multiplies it by the quantity of the spin box. It then proceeds to multiply that value by
+     * our current local tax rate of 7.75% to show a correct subtotal.
+     */
+}

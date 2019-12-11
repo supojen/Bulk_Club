@@ -280,14 +280,14 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
-          <widget class="QLabel" name="priceShow">
+          <widget class="QLabel" name="nameShow">
            <property name="text">
             <string/>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="nameShow">
+          <widget class="QLabel" name="priceShow">
            <property name="text">
             <string/>
            </property>
